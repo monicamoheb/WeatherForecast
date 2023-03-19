@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_image"
+    tools:context=".home.view.HomeFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="140dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/giza_gover"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/fri_26_feb"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/tv_city"
+                app:layout_constraintStart_toStartOf="@+id/tv_city"
+                app:layout_constraintTop_toBottomOf="@+id/tv_city" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_home"
+                android:layout_width="200dp"
+                android:layout_height="149dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="28dp"
+                android:backgroundTint="#18181800"
+                android:elevation="20dp"
+                app:cardCornerRadius="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_date">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_weather_status_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="70dp"
+                        android:gravity="center"
+                        android:text="@string/clearSky"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tv_weather_degree_home"
+                        android:layout_width="90dp"
+                        android:layout_height="70dp"
+                        android:layout_marginStart="55dp"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:text="13 C"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@android:color/white"
+                        android:textSize="36dp"
+                        android:textStyle="bold"
+                        tools:text="13 C" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/IV_weather_status_icon_home"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginStart="65dp"
+                        android:layout_marginTop="100dp"
+                        tools:src="@tools:sample/avatars" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/hours_weather_recyclerView_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView_home"
+                tools:itemCount="10"
+                tools:listitem="@layout/hours_weather_item" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/days_weather_recyclerView_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hours_weather_recyclerView_home"
+                tools:itemCount="10"
+                tools:listitem="@layout/days_weather_item" />
+
+<!--            <GridView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="23dp"-->
+<!--                android:horizontalSpacing="6dp"-->
+<!--                android:numColumns="2"-->
+<!--                android:verticalSpacing="6dp"-->
+<!--                tools:listitem="@layout/home_details_grid_item"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/days_weather_recyclerView_home">-->
+
+<!--            </GridView>-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

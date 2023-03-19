@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">WeatherForecast</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorites</string>
+    <string name="settings">Settings</string>
+    <string name="alerts">Alerts</string>
+    <string name="weather">Weather</string>
+    <string name="ad_unit">ca-app-pub-3476708907004582/5785934798</string>
+    <string name="test_unit">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="clearSky">Clear Sky</string>
+    <string name="fri_26_feb">Fri, 26 Feb</string>
+    <string name="giza_gover">Giza Governorate</string>
+    <string name="add_fav">Add To Favorite</string>
+    <string name="add_alert">Add To Alerts</string>
 </resources>
