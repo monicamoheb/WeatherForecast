@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.weatherforecast.R
+import com.example.weatherforecast.model.WeatherResponse
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : Fragment() ,OnFavClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,5 +21,9 @@ class FavoriteFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite, container, false)
+    }
+
+    override fun onClick(weather: WeatherResponse) {
+        TODO("Not yet implemented")
     }
 }

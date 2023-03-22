@@ -38,7 +38,7 @@
                         android:layout_width="170dp"
                         android:layout_height="40dp"
                         android:background="@drawable/setting_btn_bg"
-                        android:text="Location" />
+                        android:text="@string/location" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -57,13 +57,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:checked="true"
-                                android:text="Gps" />
+                                android:text="@string/gps" />
 
                             <RadioButton
                                 android:id="@+id/Map_radio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Map" />
+                                android:text="@string/map" />
                         </RadioGroup>
                     </androidx.cardview.widget.CardView>
 
@@ -94,7 +94,7 @@
                         android:layout_width="170dp"
                         android:layout_height="40dp"
                         android:background="@drawable/setting_btn_bg"
-                        android:text="Language" />
+                        android:text="@string/language" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="170dp"
@@ -113,13 +113,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:checked="true"
-                                android:text="English" />
+                                android:text="@string/english" />
 
                             <RadioButton
                                 android:id="@+id/Arabic_radio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Arabic" />
+                                android:text="@string/arabic" />
                         </RadioGroup>
                     </androidx.cardview.widget.CardView>
 
@@ -152,7 +152,7 @@
                         android:layout_width="170dp"
                         android:layout_height="40dp"
                         android:background="@drawable/setting_btn_bg"
-                        android:text="Tempreture" />
+                        android:text="@string/tempreture" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="170dp"
@@ -171,19 +171,19 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:checked="true"
-                                android:text="Celsius" />
+                                android:text="@string/celsius" />
 
                             <RadioButton
                                 android:id="@+id/Kelvin_radio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Kelvin" />
+                                android:text="@string/kelvin" />
 
                             <RadioButton
                                 android:id="@+id/Fahrenhiet_radio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Fahrenhiet" />
+                                android:text="@string/fahrenhiet" />
                         </RadioGroup>
                     </androidx.cardview.widget.CardView>
 
@@ -217,7 +217,7 @@
                         android:layout_width="170dp"
                         android:layout_height="40dp"
                         android:background="@drawable/setting_btn_bg"
-                        android:text="Wind Speed" />
+                        android:text="@string/windSpeed" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
@@ -236,13 +236,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:checked="true"
-                                android:text="Meter / Sec" />
+                                android:text="@string/mete_sec" />
 
                             <RadioButton
                                 android:id="@+id/Mile_radio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Mile / Hour" />
+                                android:text="@string/mile_hour" />
 
 
                         </RadioGroup>
@@ -274,7 +274,7 @@
                         android:layout_width="170dp"
                         android:layout_height="40dp"
                         android:background="@drawable/setting_btn_bg"
-                        android:text="Notification" />
+                        android:text="@string/notification" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="170dp"
@@ -292,14 +292,14 @@
                                 android:id="@+id/Enable_radio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Enable" />
+                                android:text="@string/enable" />
 
                             <RadioButton
                                 android:id="@+id/Disable_radio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:checked="true"
-                                android:text="Disable" />
+                                android:text="@string/disable" />
 
 
                         </RadioGroup>

@@ -13,8 +13,8 @@ class LocationClient private constructor() : RemoteSource {
     }
 
     companion object {
-        private var instance: RemoteSource? = null
-        fun getInstance(): RemoteSource {
+        private var instance: LocationClient? = null
+        fun getInstance(): LocationClient {
             return instance ?: synchronized(this) {
                 val temp = LocationClient()
                 instance = temp
@@ -22,8 +22,5 @@ class LocationClient private constructor() : RemoteSource {
             }
         }
     }
-
-
-
 
 }

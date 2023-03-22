@@ -11,7 +11,8 @@
         android:layout_marginBottom="15dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#18181800">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,6 +23,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/white"
                 android:gravity="center"
                 android:text="TextView" />
 
@@ -38,13 +41,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="150dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/white"
                 android:gravity="center"
                 android:text="TextView" />
             <TextView
                 android:id="@+id/tv_degree_weather_item_days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
+                android:layout_marginStart="280dp"
+                android:textColor="@color/white"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="TextView" />
 

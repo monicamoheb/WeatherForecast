@@ -9,6 +9,7 @@ import retrofit2.http.Query
 const val API_KEY="662e20775c1af4fcf9dd9b029978fb3e"
 interface LocationService {
     @GET("data/2.5/onecall")
-    suspend fun getWeather(@Query("lat") lat: String ,@Query("lon") lon: String,@Query("appid") appIp: String= API_KEY): Response<WeatherResponse>
+    suspend fun getWeather(@Query("lat") lat: String ,@Query("lon") lon: String,
+                           @Query("appid") appIp: String= API_KEY,@Query("lang") lang: String= "en"): Response<WeatherResponse>
     //@Query("q") cityName: String
 }

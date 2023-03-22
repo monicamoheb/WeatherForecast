@@ -3,17 +3,18 @@ package com.example.weatherforecast.db
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
+
 @Dao
 interface FavLocationsDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLocation(address: String)
-
-    @Query("select * from WeatherTable")
-    fun getFavLocations(): Flow<List<String>>
-
-    @Delete
-    suspend fun deleteLocation(address: String)
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun insertLocation(address: String)
+//
+//    @Query("select * from WeatherTable")
+//    fun getFavLocations(): Flow<List<String>>
+//
+//    @Delete
+//    suspend fun deleteLocation(address: String)
 
     ///////////
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)

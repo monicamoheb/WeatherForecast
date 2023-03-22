@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface RepoInterface {
-    suspend fun getLocation(lat:String,lon:String): Response<WeatherResponse>
+    suspend fun getCurrentWeatherOnline(lat:String,lon:String): Response<WeatherResponse>
 
-    suspend fun insertFavLocation(weatherResponse: WeatherResponse)
-    suspend fun deleteFavLocation(weatherResponse: WeatherResponse)
-    suspend fun getAllFavLocation(): Flow<List<WeatherResponse>>
+    suspend fun insertCurrentWeather(weatherResponse: WeatherResponse)
+    suspend fun deleteCurrentWeather(weatherResponse: WeatherResponse)
+    suspend fun getCurrentWeatherDB(): Flow<WeatherResponse>
 }
