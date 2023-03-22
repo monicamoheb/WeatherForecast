@@ -3,6 +3,7 @@ package com.example.weatherforecast.home.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherforecast.ApiState
+import com.example.weatherforecast.NetworkChecker
 import com.example.weatherforecast.repo.RepoInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,9 @@ class HomeViewModel(private val _repo: RepoInterface) : ViewModel() {
 
     fun getCurrentWeatherOnline(lat: String, lon: String) =
         viewModelScope.launch(Dispatchers.IO) {
-            _repo.getCurrentWeatherOnline(lat, lon)
+            _repo.getCurrentWeatherOnline(lat, lon).catch { _stateFlow.value = ApiState.Failure(it)}
+                .collect{data->
+                    _stateFlow.value=ApiState.Success(data)}
         }
 
     private fun getCurrentWeatherDB() =
@@ -30,6 +33,8 @@ class HomeViewModel(private val _repo: RepoInterface) : ViewModel() {
                 .collect{data->
                     _stateFlow.value=ApiState.Success(data)}
         }
+
+
     //check network
     // if yes -> location -> lat,lon -> online + a5ezn f db
     //if no retrive from db

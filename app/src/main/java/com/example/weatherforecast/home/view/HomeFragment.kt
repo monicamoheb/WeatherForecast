@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.weatherforecast.ApiState
+import com.example.weatherforecast.NetworkChecker
 import com.example.weatherforecast.R
 import com.example.weatherforecast.db.ConcreteLocalSource
 import com.example.weatherforecast.home.viewmodel.HomeViewModel
@@ -31,6 +32,12 @@ class HomeFragment : Fragment() {
             Repo.getInstance(LocationClient.getInstance(),
             ConcreteLocalSource(requireContext())))
         viewModel=ViewModelProvider(this,homeViewModelFactory).get(HomeViewModel::class.java)
+
+        val networkAvailability= NetworkChecker.isOnline(requireContext())
+
+        if (networkAvailability){
+
+        }
 
         lifecycleScope.launch {
             viewModel.stateFlow.collectLatest { result->
@@ -66,7 +73,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var remoteSource=LocationClient.getInstance()
         lifecycleScope.launch(Dispatchers.IO) {
-            Log.e(TAG, "onViewCreated: "+ remoteSource.getLocationOnline("33.44","94.04").body().toString())
+            Log.e(TAG, "onViewCreated: "+ remoteSource.getLocationOnline("33.44","94.04").toString())
         }
     }
 

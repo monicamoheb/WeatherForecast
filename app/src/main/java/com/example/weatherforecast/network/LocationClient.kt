@@ -1,6 +1,7 @@
 package com.example.weatherforecast.network
 
 import com.example.weatherforecast.model.WeatherResponse
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class LocationClient private constructor() : RemoteSource {
@@ -8,7 +9,7 @@ class LocationClient private constructor() : RemoteSource {
         RetrofitHelper.getLocation()
     }
 
-    override suspend fun getLocationOnline(lat: String, lon: String): Response<WeatherResponse> {
+    override suspend fun getLocationOnline(lat: String, lon: String): Flow<WeatherResponse> {
         return services.getWeather(lat,lon)
     }
 
