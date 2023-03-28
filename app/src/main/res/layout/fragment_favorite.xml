@@ -10,8 +10,9 @@
         android:id="@+id/FavRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="@dimen/_5sdp"
+        tools:itemCount="10"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/fav_item" />
 

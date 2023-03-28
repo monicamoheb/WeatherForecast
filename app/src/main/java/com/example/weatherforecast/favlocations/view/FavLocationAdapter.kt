@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.MyAlertDialog
 import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FavItemBinding
-import com.example.weatherforecast.model.WeatherResponse
+import com.example.weatherforecast.model.FavWeather
 
-class FavLocationAdapter(var vList:List<WeatherResponse>,var onFavClickListener: OnFavClickListener,var context: Context) :
+class FavLocationAdapter(var vList:List<FavWeather>,var onFavClickListener: OnFavClickListener,var context: Context) :
     RecyclerView.Adapter<FavLocationAdapter.MyViewHolder>(){
     lateinit var binding: FavItemBinding
     class MyViewHolder(var binding: FavItemBinding):RecyclerView.ViewHolder(binding.root)
@@ -30,13 +30,13 @@ class FavLocationAdapter(var vList:List<WeatherResponse>,var onFavClickListener:
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentFavWeather = vList.get(position)
 
-        holder.binding.favItemName.text=""
+        holder.binding.favItemName.text=currentFavWeather.timezone
         holder.binding.deleteFromFav.setOnClickListener{
            deleteFavWeather(currentFavWeather)
         }
     }
 
-    private fun deleteFavWeather(weather: WeatherResponse) {
+    private fun deleteFavWeather(weather: FavWeather) {
         val builder: AlertDialog.Builder = MyAlertDialog.myDialog(context)
         builder.setMessage("Do you want to remove this weather from favorites?")
         builder.setIcon(R.drawable.baseline_delete_24)

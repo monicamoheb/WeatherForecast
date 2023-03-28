@@ -44,7 +44,7 @@ class AlertsAdapter(
 
     private fun deleteAlert(alert: AlertModel) {
         val builder: AlertDialog.Builder = MyAlertDialog.myDialog(context)
-        builder.setMessage("Do you want to remove this weather from favorites?")
+        builder.setMessage("Do you want to remove this alert?")
         builder.setIcon(R.drawable.baseline_delete_24)
         builder.setPositiveButton("Yes",
             DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int ->

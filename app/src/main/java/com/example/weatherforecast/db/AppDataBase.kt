@@ -8,16 +8,16 @@ import androidx.room.TypeConverters
 import com.example.weatherforecast.converters.Converters
 import com.example.weatherforecast.converters.DailyConverter
 import com.example.weatherforecast.converters.HourlyConverter
-import com.example.weatherforecast.converters.MinutelyConverter
+import com.example.weatherforecast.model.AlertModel
+import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.model.WeatherResponse
 
 
-@Database(entities = [WeatherResponse::class], version = 1)
-@TypeConverters(Converters::class,HourlyConverter::class,DailyConverter::class,MinutelyConverter::class)
+@Database(entities = [WeatherResponse::class,FavWeather::class,AlertModel::class], version = 1)
+@TypeConverters(Converters::class,HourlyConverter::class,DailyConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun currentWeatherDao(): CurrentWeatherDao
-    abstract fun favLocationsDao(): FavLocationsDao
 
     companion object {
         private var instance: AppDataBase? = null

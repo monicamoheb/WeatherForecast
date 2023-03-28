@@ -11,8 +11,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.example.weatherforecast.CHANNEL_ID
 import com.example.weatherforecast.R
+import com.example.weatherforecast.model.AlertModel
 
-class AlertsFragment : Fragment() {
+class AlertsFragment : Fragment(),OnAlertsClickListener {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,10 @@ class AlertsFragment : Fragment() {
             ) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    override fun onClick(alertModel: AlertModel) {
+        
     }
 
 }

@@ -26,6 +26,7 @@ class MySharedPref(var context: Context) {
     }
 
     fun sharedPrefRead():SettingsModel {
+
         val settings = SettingsModel("gps","enable")
         val pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         settings.location=pref.getString(LOCATION, "not found") as String

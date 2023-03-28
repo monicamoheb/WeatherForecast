@@ -6,7 +6,6 @@ import androidx.room.TypeConverters
 import com.example.weatherforecast.converters.Converters
 import com.example.weatherforecast.converters.DailyConverter
 import com.example.weatherforecast.converters.HourlyConverter
-import com.example.weatherforecast.converters.MinutelyConverter
 
 @Entity(tableName = "WeatherTable")
 data class WeatherResponse(
@@ -19,8 +18,6 @@ data class WeatherResponse(
     @PrimaryKey
     val lat: Double,
     val lon: Double,
-    @TypeConverters(MinutelyConverter::class)
-    val minutely: List<Minutely>,
     val timezone: String,
     val timezone_offset: Int
 )

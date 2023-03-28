@@ -13,30 +13,30 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val _repo: RepoInterface) : ViewModel() {
 
-    private var _stateFlow=MutableStateFlow<ApiState>( ApiState.Loading)
-    val stateFlow:StateFlow<ApiState> = _stateFlow
-
-    init {
-        getCurrentWeatherDB()
-    }
+    private var _stateFlow = MutableStateFlow<ApiState>(ApiState.Loading)
+    val stateFlow: StateFlow<ApiState> = _stateFlow
 
     fun getCurrentWeatherOnline(lat: String, lon: String) =
         viewModelScope.launch(Dispatchers.IO) {
-            _repo.getCurrentWeatherOnline(lat, lon).catch { _stateFlow.value = ApiState.Failure(it)}
-                .collect{data->
-                    _stateFlow.value=ApiState.Success(data)}
+            _repo.getCurrentWeatherOnline(lat, lon)
+                .collect { data ->
+                    _repo.deleteCurrentWeather()
+                    _repo.insertCurrentWeather(data)
+                    getCurrentWeatherDB()
+                }
         }
 
-    private fun getCurrentWeatherDB() =
+     fun getCurrentWeatherDB() =
         viewModelScope.launch(Dispatchers.IO) {
-            _repo.getCurrentWeatherDB().catch { _stateFlow.value = ApiState.Failure(it)}
-                .collect{data->
-                    _stateFlow.value=ApiState.Success(data)}
+            _repo.getCurrentWeatherDB().catch { _stateFlow.value = ApiState.Failure(it) }
+                .collect { data ->
+                    if (data != null) {
+                        _stateFlow.value = ApiState.Success(data)
+                    } else {
+                        //_stateFlow.value = ApiState.Failure(Throwable("empty data in database"))
+                    }
+                }
         }
 
-
-    //check network
-    // if yes -> location -> lat,lon -> online + a5ezn f db
-    //if no retrive from db
 }
 

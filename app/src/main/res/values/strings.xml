@@ -30,4 +30,5 @@
     <string name="mile_hour">Mile / Hour</string>
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
+    <string name="ok">Ok</string>
 </resources>
