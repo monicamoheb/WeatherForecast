@@ -15,7 +15,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ProgressBar
                 android:id="@+id/home_progressbar"
@@ -86,7 +86,7 @@
                         android:layout_marginStart="38dp"
                         android:layout_marginTop="42dp"
                         android:gravity="start"
-                        android:text="13 C"
+                        android:text="@string/_13_c"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="@android:color/white"
                         android:textSize="36dp"
@@ -175,7 +175,8 @@
                                 android:layout_height="25dp"
                                 android:textColor="@color/white"
                                 app:tint="@color/white"
-                                android:src="@drawable/pressure"/>
+                                android:src="@drawable/pressure"
+                                android:contentDescription="@string/weatherDegree" />
 
                             <Space
                                 android:layout_width="wrap_content"
@@ -186,7 +187,7 @@
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1000 hpa"
+                                android:text="@string/_1000_hpa"
                                 android:textStyle="bold"
                                 android:textColor="@color/white"
                                 android:textSize="12sp"/>
@@ -197,7 +198,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
-                                android:text="Pressure"
+                                android:text="@string/pressure"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -231,7 +232,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
-                                android:text="100%"
+                                android:text="@string/_100"
                                 android:textStyle="bold"
                                 android:textSize="12sp"/>
 
@@ -240,7 +241,7 @@
                                 android:textColor="@color/white"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Humidity"
+                                android:text="@string/humidity"
 
                                 android:textSize="14sp"/>
                         </LinearLayout>
@@ -276,7 +277,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
-                                android:text="2.69 m/s"
+                                android:text="@string/_2_69_m_s"
                                 android:textStyle="bold"
                                 android:textSize="12sp"/>
 
@@ -285,7 +286,7 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Wind"
+                                android:text="@string/wind"
                                 android:textColor="@color/white"
                                 android:textSize="14sp"/>
                         </LinearLayout>
@@ -330,7 +331,7 @@
                                 android:id="@+id/tv_cloud"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="98%"
+                                android:text="@string/_98"
                                 android:textStyle="bold"
                                 android:layout_gravity="center"
                                 android:textColor="@color/white"
@@ -340,7 +341,7 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Cloud"
+                                android:text="@string/cloud"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                                 android:textSize="14sp" />
@@ -374,7 +375,7 @@
                                 android:id="@+id/tv_ultra_violet"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0.0"
+                                android:text="@string/_0_0"
                                 android:textStyle="bold"
                                 android:layout_gravity="center"
                                 android:textColor="@color/white"
@@ -384,7 +385,7 @@
                                 android:id="@+id/humidity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ultra Violet"
+                                android:text="@string/ultra_violet"
                                 android:layout_gravity="center"
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />
@@ -419,7 +420,7 @@
                                 android:id="@+id/tv_Visibility"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="115 m "
+                                android:text="@string/_115_m"
                                 android:textStyle="bold"
                                 android:layout_gravity="center"
                                 android:textColor="@color/white"
@@ -429,7 +430,7 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Visibility"
+                                android:text="@string/visibility"
                                 android:layout_gravity="center"
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />

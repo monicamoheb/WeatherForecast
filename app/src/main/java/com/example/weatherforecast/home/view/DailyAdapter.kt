@@ -35,13 +35,13 @@ class DailyAdapter(var dList: List<Daily>) : RecyclerView.Adapter<DailyAdapter.M
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentDay= dList.get(position)
 
-        holder.binding.tvDegreeWeatherItemDays.text=((currentDay.temp.max - 273.15).toFloat().toString()+" / "+(currentDay.temp.min- 273.15).toFloat().toString())
+        holder.binding.tvDegreeWeatherItemDays.text=((currentDay.temp.max).toInt().toString()+" / "+(currentDay.temp.min).toInt().toString())
 
         holder.binding.tvStatusWeatherItemDays.text=currentDay.weather.get(0).description
 
         holder.binding.tvDayWeatherItem.text=
             if(currentDay==dList[0])
-                "Tomorrow"
+                "Today"
             else
                 getDateTime(currentDay.dt.toString())
 
@@ -52,7 +52,7 @@ class DailyAdapter(var dList: List<Daily>) : RecyclerView.Adapter<DailyAdapter.M
     }
     private fun getDateTime(s: String): String? {
         try {
-            val sdf = SimpleDateFormat("MM/dd/yyyy")
+            val sdf = SimpleDateFormat("E")
             val netDate = Date(s.toLong() * 1000)
             return sdf.format(netDate)
         } catch (e: Exception) {

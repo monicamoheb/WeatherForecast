@@ -6,5 +6,5 @@ import retrofit2.Response
 
 interface RemoteSource {
     //lang unit
-    suspend fun getLocationOnline(lat:String,lon:String): WeatherResponse
+    suspend fun getLocationOnline(lat:String,lon:String,lang:String,unit:String): WeatherResponse
 }

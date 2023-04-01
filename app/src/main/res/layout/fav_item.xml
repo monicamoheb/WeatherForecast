@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:textSize="20sp"
-            tools:text="999"
+            tools:text="fav location"
             android:inputType="textMultiLine"
             android:textColor="@color/black" />
 

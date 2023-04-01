@@ -24,8 +24,8 @@ class Repo private constructor(
         }
     }
 
-    override suspend fun getCurrentWeatherOnline(lat: String, lon: String): Flow<WeatherResponse> {
-        return  flowOf( remoteSource.getLocationOnline(lat, lon))
+    override suspend fun getCurrentWeatherOnline(lat: String, lon: String,lang:String,unit:String): Flow<WeatherResponse> {
+        return  flowOf( remoteSource.getLocationOnline(lat, lon,lang,unit))
     }
 
     override suspend fun insertCurrentWeather(weatherResponse: WeatherResponse) {

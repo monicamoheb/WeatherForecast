@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.MyAlertDialog
 import com.example.weatherforecast.R
@@ -33,6 +34,9 @@ class FavLocationAdapter(var vList:List<FavWeather>,var onFavClickListener: OnFa
         holder.binding.favItemName.text=currentFavWeather.timezone
         holder.binding.deleteFromFav.setOnClickListener{
            deleteFavWeather(currentFavWeather)
+        }
+        holder.binding.favItemName.setOnClickListener {
+            Navigation.findNavController(holder.binding.root).navigate(R.id.action_favoriteFragment_to_homeFragment)
         }
     }
 

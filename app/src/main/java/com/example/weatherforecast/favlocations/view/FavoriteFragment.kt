@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherforecast.NetworkChecker
 import com.example.weatherforecast.R
 import com.example.weatherforecast.db.ConcreteLocalSource
 import com.example.weatherforecast.favlocations.viewmodel.FavLocationsViewModel
@@ -23,6 +24,7 @@ import com.example.weatherforecast.model.WeatherResponse
 import com.example.weatherforecast.network.LocationClient
 import com.example.weatherforecast.repo.Repo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -64,7 +66,17 @@ class FavoriteFragment : Fragment() ,OnFavClickListener {
         favRecyclerView=view.findViewById(R.id.FavRecyclerView)
 
         fab.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_favoriteFragment_to_mapsFragment)
+            val networkAvailability = NetworkChecker.isOnline(requireContext())
+            if (networkAvailability) {
+                Navigation.findNavController(view).navigate(R.id.action_favoriteFragment_to_mapsFragment)
+            }
+            else{
+                val snackbar = Snackbar.make(view,
+                    "Check Your Connection",
+                    Snackbar.LENGTH_SHORT
+                )
+                snackbar.show()
+            }
         }
 
         favLocationsViewModelFactory= FavLocationsViewModelFactory(

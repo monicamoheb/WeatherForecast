@@ -31,4 +31,22 @@
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
     <string name="ok">Ok</string>
+    <string name="day">Day</string>
+    <string name="status">Status</string>
+    <string name="max_min">max/min</string>
+    <string name="_13_c">13 C</string>
+    <string name="weatherDegree">WeatherDegree</string>
+    <string name="_1000_hpa">1000 hpa</string>
+    <string name="pressure">Pressure</string>
+    <string name="_100">100%</string>
+    <string name="humidity">Humidity</string>
+    <string name="_2_69_m_s">2.69 m/s</string>
+    <string name="wind">Wind</string>
+    <string name="_98">98%</string>
+    <string name="cloud">Cloud</string>
+    <string name="_0_0">0.0</string>
+    <string name="ultra_violet">Ultra Violet</string>
+    <string name="_115_m">115 m</string>
+    <string name="visibility">Visibility</string>
+    <string name="hour">Hour</string>
 </resources>

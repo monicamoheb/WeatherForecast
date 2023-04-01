@@ -1,14 +1,11 @@
 package com.example.weatherforecast.repo
 
-import androidx.room.Delete
-import androidx.room.Query
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.model.WeatherResponse
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 
 interface RepoInterface {
-    suspend fun getCurrentWeatherOnline(lat:String,lon:String): Flow<WeatherResponse>
+    suspend fun getCurrentWeatherOnline(lat:String,lon:String,lang:String,unit: String): Flow<WeatherResponse>
 
     suspend fun insertCurrentWeather(weatherResponse: WeatherResponse)
     suspend fun deleteCurrentWeather()

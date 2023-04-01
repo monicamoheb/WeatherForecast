@@ -22,7 +22,7 @@ class MySharedPref(var context: Context) {
         editor.putString(TEMP, settings.temp)
         editor.putString(WIND_SPEED,settings.windSpeed)
 
-        editor.commit()
+        editor.apply()
     }
 
     fun sharedPrefRead():SettingsModel {

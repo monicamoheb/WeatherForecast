@@ -44,7 +44,7 @@ class AlertsFragment : Fragment(),OnAlertsClickListener {
     }
 
     override fun onClick(alertModel: AlertModel) {
-        
+
     }
 
 }

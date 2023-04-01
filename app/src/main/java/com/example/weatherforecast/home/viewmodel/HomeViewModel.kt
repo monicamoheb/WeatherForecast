@@ -16,9 +16,9 @@ class HomeViewModel(private val _repo: RepoInterface) : ViewModel() {
     private var _stateFlow = MutableStateFlow<ApiState>(ApiState.Loading)
     val stateFlow: StateFlow<ApiState> = _stateFlow
 
-    fun getCurrentWeatherOnline(lat: String, lon: String) =
+    fun getCurrentWeatherOnline(lat: String, lon: String,lang:String,unit:String) =
         viewModelScope.launch(Dispatchers.IO) {
-            _repo.getCurrentWeatherOnline(lat, lon)
+            _repo.getCurrentWeatherOnline(lat, lon,lang,unit)
                 .collect { data ->
                     _repo.deleteCurrentWeather()
                     _repo.insertCurrentWeather(data)

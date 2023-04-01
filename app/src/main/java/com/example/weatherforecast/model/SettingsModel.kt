@@ -5,5 +5,5 @@ data class SettingsModel (
     var notification:String,
     var lang:String="en",
     var windSpeed:String="meter/sec",
-    var temp: String="celsius"
+    var temp: String="standard"
 )

@@ -9,8 +9,8 @@ class LocationClient private constructor() : RemoteSource {
         RetrofitHelper.getLocation()
     }
 
-    override suspend fun getLocationOnline(lat: String, lon: String): WeatherResponse {
-        return services.getWeather(lat,lon)
+    override suspend fun getLocationOnline(lat: String, lon: String, lang: String, unit: String): WeatherResponse {
+        return services.getWeather(lat,lon,lang,unit)
     }
 
     companion object {
