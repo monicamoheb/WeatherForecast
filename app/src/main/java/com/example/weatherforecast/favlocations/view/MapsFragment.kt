@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.weatherforecast.R
@@ -17,7 +16,6 @@ import com.example.weatherforecast.db.ConcreteLocalSource
 import com.example.weatherforecast.favlocations.view.MapsFragmentDirections.ActionMapsFragmentToHomeFragment
 import com.example.weatherforecast.favlocations.viewmodel.MapsViewModel
 import com.example.weatherforecast.favlocations.viewmodel.MapsViewModelFactory
-import com.example.weatherforecast.home.view.HomeFragmentArgs
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.network.LocationClient
 import com.example.weatherforecast.repo.Repo
@@ -28,7 +26,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.button.MaterialButton
-import kotlin.math.log
 
 private const val TAG = "MapsFragment"
 
@@ -90,9 +87,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
         mMap.setOnMapClickListener(this)
-
         var addresses: List<Address> = geocoder.getFromLocationName("london", 1) as List<Address>
         if (addresses.size > 0) {
             address = addresses.get(0)

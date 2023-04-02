@@ -44,8 +44,9 @@
     <string name="wind">الرياح</string>
     <string name="_98">98%</string>
     <string name="cloud">السحب</string>
+    <string name="today">اليوم</string>
     <string name="_0_0">0.0</string>
-    <string name="ultra_violet">الاشعة الفوق بنفسجية</string>
+    <string name="ultra_violet">الفوق بنفسجية</string>
     <string name="_115_m">115 m</string>
     <string name="visibility">الرؤية</string>
     <string name="hour">الساعة</string>

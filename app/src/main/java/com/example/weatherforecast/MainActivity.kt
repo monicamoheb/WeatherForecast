@@ -62,11 +62,6 @@ class MainActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = binding.drawerLayoutMain
         val navView: NavigationView = binding.navViewMain
 
-        binding.swipRefresh.setOnRefreshListener {
-            navController.navigate(fragmentID)
-            binding.swipRefresh.isRefreshing = false
-        }
-
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment, R.id.favoriteFragment, R.id.alertsFragment, R.id.settingsFragment
@@ -115,30 +110,6 @@ class MainActivity : AppCompatActivity() {
         val alertDialog = builder.create()
         alertDialog.show()
     }
-
-    /*private fun showDialog() {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.getDefaultFeatures(this))
-        dialog.setTitle("Initial Setup")
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.initial_setup)
-
-        val gps = dialog.findViewById<RadioButton>(R.id.gps_radioButton)
-        val map = dialog.findViewById<RadioButton>(R.id.map_radioButton)
-        val enabled = dialog.findViewById<RadioButton>(R.id.enable_radioButton)
-        val disable = dialog.findViewById<RadioButton>(R.id.disable_radioButton)
-        val ok_btn = dialog.findViewById<Button>(R.id.btn_ok)
-
-        ok_btn.setOnClickListener {
-            val location: String = if (gps.isChecked == true) "gps" else "map"
-            val notification: String = if (enabled.isChecked == true) "enable" else "disable"
-            setting = SettingsModel(location, notification)
-            mySharedPref.sharedPrefWrite(setting)
-            Log.e(TAG, "showDialog: ${mySharedPref.sharedPrefRead()}")
-            dialog.dismiss()
-        }
-        dialog.show()
-    }*/
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)

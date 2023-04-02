@@ -86,6 +86,10 @@ class HomeFragment : Fragment() {
         super.onResume()
 
         checkNetwork()
+        binding.swipeRefresh.setOnRefreshListener {
+           checkNetwork()
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     private fun checkNetwork() {
@@ -109,6 +113,7 @@ class HomeFragment : Fragment() {
                         settings.lang,
                         settings.temp
                     )
+                    requireArguments().clear()
                 } else {
                     if (checkPermissions()) {
                         getCurrentLocation()
