@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.NetworkChecker
 import com.example.weatherforecast.R
 import com.example.weatherforecast.db.ConcreteLocalSource
+import com.example.weatherforecast.favlocations.view.FavoriteFragmentDirections.ActionFavoriteFragmentToMapsFragment
 import com.example.weatherforecast.favlocations.viewmodel.FavLocationsViewModel
 import com.example.weatherforecast.favlocations.viewmodel.FavLocationsViewModelFactory
 import com.example.weatherforecast.favlocations.viewmodel.MapsViewModel
 import com.example.weatherforecast.favlocations.viewmodel.MapsViewModelFactory
+import com.example.weatherforecast.home.view.HomeFragmentDirections
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.model.WeatherResponse
 import com.example.weatherforecast.network.LocationClient
@@ -68,6 +70,9 @@ class FavoriteFragment : Fragment() ,OnFavClickListener {
         fab.setOnClickListener {
             val networkAvailability = NetworkChecker.isOnline(requireContext())
             if (networkAvailability) {
+                var action: ActionFavoriteFragmentToMapsFragment=
+                    FavoriteFragmentDirections.actionFavoriteFragmentToMapsFragment()
+                action.sender="fav"
                 Navigation.findNavController(view).navigate(R.id.action_favoriteFragment_to_mapsFragment)
             }
             else{

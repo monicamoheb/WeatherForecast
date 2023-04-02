@@ -8,9 +8,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.MyAlertDialog
+import com.example.weatherforecast.NetworkChecker
 import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FavItemBinding
+import com.example.weatherforecast.favlocations.view.FavoriteFragmentDirections.ActionFavoriteFragmentToHomeFragment
+import com.example.weatherforecast.favlocations.view.FavoriteFragmentDirections.actionFavoriteFragmentToHomeFragment
 import com.example.weatherforecast.model.FavWeather
+import com.google.android.material.snackbar.Snackbar
 
 class FavLocationAdapter(var vList:List<FavWeather>,var onFavClickListener: OnFavClickListener,var context: Context) :
     RecyclerView.Adapter<FavLocationAdapter.MyViewHolder>(){
@@ -35,8 +39,23 @@ class FavLocationAdapter(var vList:List<FavWeather>,var onFavClickListener: OnFa
         holder.binding.deleteFromFav.setOnClickListener{
            deleteFavWeather(currentFavWeather)
         }
+
         holder.binding.favItemName.setOnClickListener {
-            Navigation.findNavController(holder.binding.root).navigate(R.id.action_favoriteFragment_to_homeFragment)
+            val networkAvailability = NetworkChecker.isOnline(context)
+
+            if (networkAvailability) {
+                var action: ActionFavoriteFragmentToHomeFragment = actionFavoriteFragmentToHomeFragment()
+                action.latlang = "${currentFavWeather.lat}+${currentFavWeather.lon}"
+                Navigation.findNavController(holder.binding.root).navigate(action)
+                action.latlang = null
+            }
+            else{
+                Snackbar.make(binding.root,
+                    "Check Your Connection ..",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+
         }
     }
 

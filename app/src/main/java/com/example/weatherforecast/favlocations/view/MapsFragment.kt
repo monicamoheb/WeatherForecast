@@ -9,13 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.weatherforecast.R
 import com.example.weatherforecast.db.ConcreteLocalSource
+import com.example.weatherforecast.favlocations.view.MapsFragmentDirections.ActionMapsFragmentToHomeFragment
 import com.example.weatherforecast.favlocations.viewmodel.MapsViewModel
 import com.example.weatherforecast.favlocations.viewmodel.MapsViewModelFactory
-import com.example.weatherforecast.home.viewmodel.HomeViewModel
-import com.example.weatherforecast.home.viewmodel.HomeViewModelFactory
+import com.example.weatherforecast.home.view.HomeFragmentArgs
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.network.LocationClient
 import com.example.weatherforecast.repo.Repo
@@ -26,9 +28,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.button.MaterialButton
+import kotlin.math.log
 
 private const val TAG = "MapsFragment"
-class MapsFragment : Fragment() , OnMapReadyCallback, GoogleMap.OnMapClickListener {
+
+class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     lateinit var mMap: GoogleMap
     lateinit var geocoder: Geocoder
@@ -49,35 +53,50 @@ class MapsFragment : Fragment() , OnMapReadyCallback, GoogleMap.OnMapClickListen
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-        geocoder= Geocoder(requireContext())
-        okButton=view.findViewById(R.id.ok_btn)
-        mapsViewModelFactory= MapsViewModelFactory(
+        geocoder = Geocoder(requireContext())
+        okButton = view.findViewById(R.id.ok_btn)
+        mapsViewModelFactory = MapsViewModelFactory(
             Repo.getInstance(
                 LocationClient.getInstance(),
                 ConcreteLocalSource(requireContext())
             )
         )
 
-        mapsViewModel= ViewModelProvider(this, mapsViewModelFactory).get(MapsViewModel::class.java)
+        mapsViewModel = ViewModelProvider(this, mapsViewModelFactory).get(MapsViewModel::class.java)
 
-        okButton.setOnClickListener{
-            var favWeather=FavWeather(address.latitude,address.longitude,address.locality?:address.featureName)
-            Log.e(TAG, "onViewCreated: $address", )
-            mapsViewModel.insertFavLocation(favWeather)
-            Toast.makeText(requireContext(),"Click Okkk ..",Toast.LENGTH_LONG).show()
+        okButton.setOnClickListener {
+            var sender = arguments?.let { MapsFragmentArgs.fromBundle(it).sender }
+            Log.e(TAG, "onViewCreated: sender: $sender", )
+            if (sender != null) {
+                if(sender=="fav"){
+                    var favWeather = FavWeather(
+                        address.latitude,
+                        address.longitude,
+                        address.locality ?: address.featureName
+                    )
+                    mapsViewModel.insertFavLocation(favWeather)
+                    Toast.makeText(requireContext(), "Click Okkk ..", Toast.LENGTH_LONG).show()
+                } else if (sender=="home") {
 
+                    var action: ActionMapsFragmentToHomeFragment =
+                        MapsFragmentDirections.actionMapsFragmentToHomeFragment()
+                    action.latlang = "${address.latitude}+${address.longitude}"
+                    Navigation.findNavController(view).navigate(action)
+                    action.latlang = null
+                }
+            }
         }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap=googleMap
+        mMap = googleMap
 
         mMap.setOnMapClickListener(this)
 
-        var addresses:List<Address> = geocoder.getFromLocationName("london",1) as List<Address>
-        if (addresses.size>0) {
-             address = addresses.get(0)
-            var latLng= LatLng(address.latitude, address.longitude)
+        var addresses: List<Address> = geocoder.getFromLocationName("london", 1) as List<Address>
+        if (addresses.size > 0) {
+            address = addresses.get(0)
+            var latLng = LatLng(address.latitude, address.longitude)
             mMap.addMarker(MarkerOptions().position(latLng).title(address.getAddressLine(0)))
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16F))
             Log.i(TAG, "latlng $latLng")
@@ -86,8 +105,9 @@ class MapsFragment : Fragment() , OnMapReadyCallback, GoogleMap.OnMapClickListen
     }
 
     override fun onMapClick(latLng: LatLng) {
-        var addresses:List<Address> = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1) as List<Address>
-        if (addresses.size>0) {
+        var addresses: List<Address> =
+            geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1) as List<Address>
+        if (addresses.size > 0) {
             address = addresses.get(0)
             mMap.clear()
             mMap.addMarker(MarkerOptions().position(latLng).title(address.getAddressLine(0)))

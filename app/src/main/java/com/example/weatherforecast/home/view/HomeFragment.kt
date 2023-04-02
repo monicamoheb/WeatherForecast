@@ -13,19 +13,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.ApiState
 import com.example.weatherforecast.MySharedPref
 import com.example.weatherforecast.NetworkChecker
+import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FragmentHomeBinding
 import com.example.weatherforecast.db.ConcreteLocalSource
+import com.example.weatherforecast.favlocations.view.MapsFragmentDirections
+import com.example.weatherforecast.home.view.HomeFragmentDirections.ActionHomeFragmentToMapsFragment
 import com.example.weatherforecast.home.viewmodel.HomeViewModel
 import com.example.weatherforecast.home.viewmodel.HomeViewModelFactory
 import com.example.weatherforecast.model.SettingsModel
@@ -87,20 +90,40 @@ class HomeFragment : Fragment() {
 
     private fun checkNetwork() {
         val networkAvailability = NetworkChecker.isOnline(requireContext())
+
+        Log.e(TAG, "checkNetwork: ${settings.location}", )
+
         if (networkAvailability) {
-            if (checkPermissions()) {
-                getCurrentLocation()
-            } else {
-                requestPermissions()
+            var latlong = arguments?.let { HomeFragmentArgs.fromBundle(it).latlang }
+            if(settings.location=="map"&&latlong==null){
+                var action: ActionHomeFragmentToMapsFragment=HomeFragmentDirections.actionHomeFragmentToMapsFragment()
+                action.sender="home"
+                Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_mapsFragment)
+            }
+            else {
+                if (latlong != null) {
+                    var latLng = latlong.split("+")
+                    viewModel.getCurrentWeatherOnline(
+                        latLng.get(0),
+                        latLng.get(1),
+                        settings.lang,
+                        settings.temp
+                    )
+                } else {
+                    if (checkPermissions()) {
+                        getCurrentLocation()
+                    } else {
+                        requestPermissions()
+                    }
+                }
             }
         }
         else{
             viewModel.getCurrentWeatherDB()
-            val snackbar = Snackbar.make(binding.root,
+            Snackbar.make(binding.root,
                 "No Internet ..",
                 Snackbar.LENGTH_SHORT
-            )
-            snackbar.show()
+            ).show()
         }
 
         getData()
