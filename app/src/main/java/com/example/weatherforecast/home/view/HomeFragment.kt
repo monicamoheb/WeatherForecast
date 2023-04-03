@@ -27,7 +27,6 @@ import com.example.weatherforecast.NetworkChecker
 import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FragmentHomeBinding
 import com.example.weatherforecast.db.ConcreteLocalSource
-import com.example.weatherforecast.favlocations.view.MapsFragmentDirections
 import com.example.weatherforecast.home.view.HomeFragmentDirections.ActionHomeFragmentToMapsFragment
 import com.example.weatherforecast.home.viewmodel.HomeViewModel
 import com.example.weatherforecast.home.viewmodel.HomeViewModelFactory
@@ -41,19 +40,18 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 const val PERMISSION_ID = 40
 
 private const val TAG = "HomeFragment"
 
 class HomeFragment : Fragment() {
     lateinit var viewModel: HomeViewModel
-    lateinit var homeViewModelFactory: HomeViewModelFactory
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    lateinit var layoutManager: LinearLayoutManager
-    lateinit var hourlyAdapter: HourlyAdapter
-    lateinit var dailyAdapter: DailyAdapter
-    lateinit var binding: FragmentHomeBinding
+    private lateinit var homeViewModelFactory: HomeViewModelFactory
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var hourlyAdapter: HourlyAdapter
+    private lateinit var dailyAdapter: DailyAdapter
+    private lateinit var binding: FragmentHomeBinding
     lateinit var mySharedPref: MySharedPref
     lateinit var settings: SettingsModel
 
@@ -90,6 +88,7 @@ class HomeFragment : Fragment() {
             checkNetwork()
             binding.swipeRefresh.isRefreshing = false
         }
+
     }
 
     private fun checkNetwork() {
@@ -98,19 +97,19 @@ class HomeFragment : Fragment() {
         Log.e(TAG, "checkNetwork: ${settings.location}")
 
         if (networkAvailability) {
-            var latlong = arguments?.let { HomeFragmentArgs.fromBundle(it).latlang }
-            if (settings.location == "map" && latlong == null) {
-                var action: ActionHomeFragmentToMapsFragment =
+            val latLong = arguments?.let { HomeFragmentArgs.fromBundle(it).latlang }
+            if (settings.location == "map" && latLong == null) {
+                val action: ActionHomeFragmentToMapsFragment =
                     HomeFragmentDirections.actionHomeFragmentToMapsFragment()
                 action.sender = "home"
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_homeFragment_to_mapsFragment)
             } else {
-                if (latlong != null) {
-                    var latLng = latlong.split("+")
+                if (latLong != null) {
+                    val latLng = latLong.split("+")
                     viewModel.getCurrentWeatherOnline(
-                        latLng.get(0),
-                        latLng.get(1),
+                        latLng[0],
+                        latLng[1],
                         settings.lang,
                         settings.temp
                     )
@@ -166,32 +165,33 @@ class HomeFragment : Fragment() {
                             result.data.current.weather.get(0).description
 
                         if (settings.temp == "metric") {
-                            if(settings.windSpeed=="meter/sec"){
-                                binding.tvWind.text = result.data.current.wind_speed.toString() + " m/s"
-                            }
-                            else{
-                                binding.tvWind.text = (result.data.current.wind_speed).times( 2.237).toString() + " m/h"
+                            if (settings.windSpeed == "meter/sec") {
+                                binding.tvWind.text =
+                                    result.data.current.wind_speed.toString() + " m/s"
+                            } else {
+                                binding.tvWind.text = (result.data.current.wind_speed).times(2.237)
+                                    .toString() + " m/h"
 
                             }
                             (binding.tvWeatherDegreeHome.text) =
                                 result.data.current.temp.toString() + "°C"
-                        }
-                        else if (settings.temp == "standard") {
-                            if(settings.windSpeed=="meter/sec"){
-                                binding.tvWind.text = result.data.current.wind_speed.toString() + " m/s"
-                            }
-                            else{
-                                binding.tvWind.text = (result.data.current.wind_speed).times( 2.237).toString() + " m/h"
+                        } else if (settings.temp == "standard") {
+                            if (settings.windSpeed == "meter/sec") {
+                                binding.tvWind.text =
+                                    result.data.current.wind_speed.toString() + " m/s"
+                            } else {
+                                binding.tvWind.text = (result.data.current.wind_speed).times(2.237)
+                                    .toString() + " m/h"
                             }
                             (binding.tvWeatherDegreeHome.text) =
                                 result.data.current.temp.toString() + "K"
-                        }
-                        else {
-                            if(settings.windSpeed=="meter/sec"){
-                                binding.tvWind.text = (result.data.current.wind_speed).div( 2.237).toString() + " m/h"
-                            }
-                            else{
-                                binding.tvWind.text = result.data.current.wind_speed.toString() + " m/s"
+                        } else {
+                            if (settings.windSpeed == "meter/sec") {
+                                binding.tvWind.text =
+                                    (result.data.current.wind_speed).div(2.237).toString() + " m/h"
+                            } else {
+                                binding.tvWind.text =
+                                    result.data.current.wind_speed.toString() + " m/s"
                             }
                             (binding.tvWeatherDegreeHome.text) =
                                 result.data.current.temp.toString() + "F"
@@ -200,7 +200,9 @@ class HomeFragment : Fragment() {
                         Glide.with(binding.IVWeatherStatusIconHome.context)
                             .load(
                                 "https://openweathermap.org/img/wn/${
-                                    result.data.current.weather.get(0).icon}@2x.png")
+                                    result.data.current.weather[0].icon
+                                }@2x.png"
+                            )
                             .into(binding.IVWeatherStatusIconHome)
                         Log.i(TAG, "onCreate: " + result.data)
 
@@ -230,7 +232,7 @@ class HomeFragment : Fragment() {
 
     private fun getDateTime(): String? {
         return try {
-            val sdf = SimpleDateFormat("MM/dd/yyyy - h:m:s")
+            val sdf = SimpleDateFormat("MM/dd/yyyy ",Locale.getDefault())
             sdf.format(Date())
         } catch (e: Exception) {
             e.toString()
@@ -267,6 +269,7 @@ class HomeFragment : Fragment() {
         )
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -301,8 +304,8 @@ class HomeFragment : Fragment() {
             val lastLocation = p0.lastLocation
             if (lastLocation != null) {
 
-                var lat = lastLocation.latitude.toString()
-                var long = lastLocation.longitude.toString()
+                val lat = lastLocation.latitude.toString()
+                val long = lastLocation.longitude.toString()
 
                 settings = mySharedPref.sharedPrefRead()
                 viewModel.getCurrentWeatherOnline(lat, long, settings.lang, settings.temp)
@@ -318,20 +321,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun checkPermissions(): Boolean {
-        var result = ActivityCompat.checkSelfPermission(
+        return ActivityCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(
                     requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
-        return result
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.inflate(inflater, container, false)

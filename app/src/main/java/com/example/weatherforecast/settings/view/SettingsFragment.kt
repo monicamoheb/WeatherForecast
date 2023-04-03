@@ -102,7 +102,7 @@ class SettingsFragment : Fragment() {
 
     }
 
-    fun setUpSharedPref(){
+    private fun setUpSharedPref(){
         language=if(binding.ArabicRadio.isChecked) "ar" else "en"
         location=if(binding.GpsRadio.isChecked) "gps" else "map"
         temp= if(binding.KelvinRadio.isChecked) "standard" else if (binding.CelsiusRadio.isChecked) "metric" else "imperial"

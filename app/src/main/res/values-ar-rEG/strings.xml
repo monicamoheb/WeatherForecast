@@ -50,4 +50,11 @@
     <string name="_115_m">115 m</string>
     <string name="visibility">الرؤية</string>
     <string name="hour">الساعة</string>
+    <string name="from">من</string>
+    <string name="to">الى</string>
+    <string name="alarm">منبة</string>
+    <string name="save">حفظ</string>
+    <string name="today_alert">تحذيرات اليوم</string>
+    <string name="alerts_for_today">Alerts for today ...</string>
+    <string name="dismiss">اغلاق</string>
 </resources>

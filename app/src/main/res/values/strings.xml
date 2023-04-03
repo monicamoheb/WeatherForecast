@@ -54,4 +54,7 @@
     <string name="to">To</string>
     <string name="alarm">Alarm</string>
     <string name="save">Save</string>
+    <string name="today_alert">Today\'s Alert</string>
+    <string name="alerts_for_today">Alerts for today ...</string>
+    <string name="dismiss">Dismiss</string>
 </resources>
