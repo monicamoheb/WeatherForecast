@@ -7,7 +7,7 @@
     tools:context=".alerts.view.AlertsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/FavRecyclerView"
+        android:id="@+id/AlertsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"

@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.weatherforecast.converters.AlertsConverter
 import com.example.weatherforecast.converters.Converters
 import com.example.weatherforecast.converters.DailyConverter
 import com.example.weatherforecast.converters.HourlyConverter
@@ -14,7 +15,7 @@ import com.example.weatherforecast.model.WeatherResponse
 
 
 @Database(entities = [WeatherResponse::class,FavWeather::class,AlertModel::class], version = 1)
-@TypeConverters(Converters::class,HourlyConverter::class,DailyConverter::class)
+@TypeConverters(Converters::class,HourlyConverter::class,DailyConverter::class,AlertsConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun currentWeatherDao(): CurrentWeatherDao

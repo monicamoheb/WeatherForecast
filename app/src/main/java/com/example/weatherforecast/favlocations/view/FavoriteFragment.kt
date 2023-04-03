@@ -64,6 +64,21 @@ class FavoriteFragment : Fragment() ,OnFavClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initUI(view)
+
+        favLocationsViewModelFactory= FavLocationsViewModelFactory(
+            Repo.getInstance(
+                LocationClient.getInstance(),
+                ConcreteLocalSource(requireContext())
+            )
+        )
+
+        favLocationsViewModel= ViewModelProvider(this, favLocationsViewModelFactory).get(FavLocationsViewModel::class.java)
+        setUpRecyclerView()
+        getData()
+    }
+
+    fun initUI(view: View){
         fab=view.findViewById(R.id.fab)
         favRecyclerView=view.findViewById(R.id.FavRecyclerView)
 
@@ -83,20 +98,9 @@ class FavoriteFragment : Fragment() ,OnFavClickListener {
                 snackbar.show()
             }
         }
-
-        favLocationsViewModelFactory= FavLocationsViewModelFactory(
-            Repo.getInstance(
-                LocationClient.getInstance(),
-                ConcreteLocalSource(requireContext())
-            )
-        )
-
-        favLocationsViewModel= ViewModelProvider(this, favLocationsViewModelFactory).get(FavLocationsViewModel::class.java)
-        setUpRecyclerView()
-        getData()
     }
 
-    fun getData(){
+    private fun getData(){
         Log.e(TAG, "getData: ${favLocationsViewModel.stateFlow.value}")
         lifecycleScope.launch(Dispatchers.IO) {
             favLocationsViewModel.stateFlow.collectLatest { favList ->

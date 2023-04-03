@@ -10,7 +10,8 @@ class LocationClient private constructor() : RemoteSource {
     }
 
     override suspend fun getLocationOnline(lat: String, lon: String, lang: String, unit: String): WeatherResponse {
-        return services.getWeather(lat,lon,lang,unit)
+        val weatherResponse=services.getWeather(lat,lon,lang,unit)
+        return weatherResponse.body()!!
     }
 
     companion object {

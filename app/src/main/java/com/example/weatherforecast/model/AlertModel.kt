@@ -7,10 +7,11 @@ import java.io.Serializable
 @Entity(tableName = "AlertsTable")
 class AlertModel (
     //sa3a youm no3
-    @PrimaryKey
-    var id:Int,
     var startDay:String,
     var endDay:String,
-    var alertHour:Int,
+    var alertHour:String,
     var alertType:String
-    ):Serializable
+    ):Serializable{
+    @PrimaryKey(autoGenerate = true)
+    var id:Int = 0
+    }

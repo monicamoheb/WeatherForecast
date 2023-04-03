@@ -36,7 +36,7 @@ class AlertsAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentAlert = AList.get(position)
 
-        holder.binding.favItemName.text = ""
+        holder.binding.favItemName.text = currentAlert.startDay+" - "+currentAlert.endDay+"\n"+currentAlert.alertHour
         holder.binding.deleteFromAlerts.setOnClickListener {
             deleteAlert(currentAlert)
         }

@@ -68,8 +68,8 @@ class HomeFragment : Fragment() {
         )
         viewModel = ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
 
-        mySharedPref= MySharedPref(requireContext())
-        settings=mySharedPref.sharedPrefRead()
+        mySharedPref = MySharedPref(requireContext())
+        settings = mySharedPref.sharedPrefRead()
 
     }
 
@@ -77,7 +77,7 @@ class HomeFragment : Fragment() {
         layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = RecyclerView.HORIZONTAL
         dailyAdapter = DailyAdapter(ArrayList())
-        hourlyAdapter = HourlyAdapter(ArrayList(),requireContext())
+        hourlyAdapter = HourlyAdapter(ArrayList(), requireContext())
         binding.hoursWeatherRecyclerViewHome.adapter = hourlyAdapter
         binding.daysWeatherRecyclerViewHome.adapter = dailyAdapter
     }
@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
 
         checkNetwork()
         binding.swipeRefresh.setOnRefreshListener {
-           checkNetwork()
+            checkNetwork()
             binding.swipeRefresh.isRefreshing = false
         }
     }
@@ -95,16 +95,17 @@ class HomeFragment : Fragment() {
     private fun checkNetwork() {
         val networkAvailability = NetworkChecker.isOnline(requireContext())
 
-        Log.e(TAG, "checkNetwork: ${settings.location}", )
+        Log.e(TAG, "checkNetwork: ${settings.location}")
 
         if (networkAvailability) {
             var latlong = arguments?.let { HomeFragmentArgs.fromBundle(it).latlang }
-            if(settings.location=="map"&&latlong==null){
-                var action: ActionHomeFragmentToMapsFragment=HomeFragmentDirections.actionHomeFragmentToMapsFragment()
-                action.sender="home"
-                Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_mapsFragment)
-            }
-            else {
+            if (settings.location == "map" && latlong == null) {
+                var action: ActionHomeFragmentToMapsFragment =
+                    HomeFragmentDirections.actionHomeFragmentToMapsFragment()
+                action.sender = "home"
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_homeFragment_to_mapsFragment)
+            } else {
                 if (latlong != null) {
                     var latLng = latlong.split("+")
                     viewModel.getCurrentWeatherOnline(
@@ -122,10 +123,10 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-        }
-        else{
+        } else {
             viewModel.getCurrentWeatherDB()
-            Snackbar.make(binding.root,
+            Snackbar.make(
+                binding.root,
                 "No Internet ..",
                 Snackbar.LENGTH_SHORT
             ).show()
@@ -140,54 +141,82 @@ class HomeFragment : Fragment() {
                 when (result) {
                     is ApiState.Loading -> {
                         Log.i(TAG, "getData: loading")
-                        binding.homeProgressbar.visibility=View.VISIBLE
-                        binding.cardViewHome.visibility=View.GONE
-                        binding.detailsCardViewHome.visibility=View.GONE
-                        binding.tvCity.visibility=View.GONE
-                        binding.tvDate.visibility=View.GONE
+                        binding.homeProgressbar.visibility = View.VISIBLE
+                        binding.cardViewHome.visibility = View.GONE
+                        binding.detailsCardViewHome.visibility = View.GONE
+                        binding.tvCity.visibility = View.GONE
+                        binding.tvDate.visibility = View.GONE
 
                     }
                     is ApiState.Success -> {
-                        binding.homeProgressbar.visibility=View.GONE
-                        binding.cardViewHome.visibility=View.VISIBLE
-                        binding.detailsCardViewHome.visibility=View.VISIBLE
-                        binding.tvCity.visibility=View.VISIBLE
-                        binding.tvDate.visibility=View.VISIBLE
+                        binding.homeProgressbar.visibility = View.GONE
+                        binding.cardViewHome.visibility = View.VISIBLE
+                        binding.detailsCardViewHome.visibility = View.VISIBLE
+                        binding.tvCity.visibility = View.VISIBLE
+                        binding.tvDate.visibility = View.VISIBLE
 
                         dailyAdapter.dList = result.data.daily
                         hourlyAdapter.hList = result.data.hourly
                         dailyAdapter.notifyDataSetChanged()
                         hourlyAdapter.notifyDataSetChanged()
 
-                        binding.tvCity.text=result.data.timezone
-                        binding.tvDate.text=getDateTime()
-                        binding.tvWeatherStatusHome.text=result.data.current.weather.get(0).description
+                        binding.tvCity.text = result.data.timezone
+                        binding.tvDate.text = getDateTime()
+                        binding.tvWeatherStatusHome.text =
+                            result.data.current.weather.get(0).description
 
-                        if(settings.temp=="metric")
-                            (binding.tvWeatherDegreeHome.text)=result.data.current.temp.toString()+"°C"
-                        else if(settings.temp=="standard")
-                            (binding.tvWeatherDegreeHome.text)=result.data.current.temp.toString()+"K"
-                        else
-                            (binding.tvWeatherDegreeHome.text)=result.data.current.temp.toString()+"F"
+                        if (settings.temp == "metric") {
+                            if(settings.windSpeed=="meter/sec"){
+                                binding.tvWind.text = result.data.current.wind_speed.toString() + " m/s"
+                            }
+                            else{
+                                binding.tvWind.text = (result.data.current.wind_speed).times( 2.237).toString() + " m/h"
+
+                            }
+                            (binding.tvWeatherDegreeHome.text) =
+                                result.data.current.temp.toString() + "°C"
+                        }
+                        else if (settings.temp == "standard") {
+                            if(settings.windSpeed=="meter/sec"){
+                                binding.tvWind.text = result.data.current.wind_speed.toString() + " m/s"
+                            }
+                            else{
+                                binding.tvWind.text = (result.data.current.wind_speed).times( 2.237).toString() + " m/h"
+                            }
+                            (binding.tvWeatherDegreeHome.text) =
+                                result.data.current.temp.toString() + "K"
+                        }
+                        else {
+                            if(settings.windSpeed=="meter/sec"){
+                                binding.tvWind.text = (result.data.current.wind_speed).div( 2.237).toString() + " m/h"
+                            }
+                            else{
+                                binding.tvWind.text = result.data.current.wind_speed.toString() + " m/s"
+                            }
+                            (binding.tvWeatherDegreeHome.text) =
+                                result.data.current.temp.toString() + "F"
+                        }
 
                         Glide.with(binding.IVWeatherStatusIconHome.context)
-                            .load("https://openweathermap.org/img/wn/${result.data.current.weather.get(0).icon}@2x.png")
+                            .load(
+                                "https://openweathermap.org/img/wn/${
+                                    result.data.current.weather.get(0).icon}@2x.png")
                             .into(binding.IVWeatherStatusIconHome)
                         Log.i(TAG, "onCreate: " + result.data)
 
-                        binding.tvHumidity.text=result.data.current.humidity.toString()+"%"
-                        binding.tvPressure.text= result.data.current.pressure.toString()+" hpa"
-                        binding.tvCloud.text= result.data.current.clouds.toString()+"%"
-                        binding.tvWind.text= result.data.current.wind_speed.toString()+" m/s"
-                        binding.tvUltraViolet.text= result.data.current.uvi.toString()
-                        binding.tvVisibility.text= result.data.current.visibility.toString()+" m"
+                        binding.tvHumidity.text = result.data.current.humidity.toString() + "%"
+                        binding.tvPressure.text = result.data.current.pressure.toString() + " hpa"
+                        binding.tvCloud.text = result.data.current.clouds.toString() + "%"
+                        binding.tvUltraViolet.text = result.data.current.uvi.toString()
+                        binding.tvVisibility.text = result.data.current.visibility.toString() + " m"
 
-                        Log.e(TAG, "getData: "+result.data.current.visibility.toString() )
+                        Log.e(TAG, "getData: " + result.data.current.visibility.toString())
                     }
-                    else-> {
+                    else -> {
                         //image failure
-                        binding.homeProgressbar.visibility=View.GONE
-                        val snackbar = Snackbar.make(binding.root,
+                        binding.homeProgressbar.visibility = View.GONE
+                        val snackbar = Snackbar.make(
+                            binding.root,
                             "Check Your Connection",
                             Snackbar.LENGTH_SHORT
                         )
@@ -214,7 +243,8 @@ class HomeFragment : Fragment() {
         if (isLocationEnabled()) {
             requestNewLocationData()
         } else {
-            val snackbar = Snackbar.make(binding.root,
+            val snackbar = Snackbar.make(
+                binding.root,
                 "Turn on location",
                 Snackbar.LENGTH_SHORT
             )
@@ -255,7 +285,7 @@ class HomeFragment : Fragment() {
         val locationRequest = LocationRequest()
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         locationRequest.setInterval(1)
-        locationRequest.numUpdates=3
+        locationRequest.numUpdates = 3
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
         fusedLocationProviderClient.requestLocationUpdates(
@@ -274,7 +304,8 @@ class HomeFragment : Fragment() {
                 var lat = lastLocation.latitude.toString()
                 var long = lastLocation.longitude.toString()
 
-                viewModel.getCurrentWeatherOnline(lat, long,settings.lang,settings.temp)
+                settings = mySharedPref.sharedPrefRead()
+                viewModel.getCurrentWeatherOnline(lat, long, settings.lang, settings.temp)
             }
         }
     }

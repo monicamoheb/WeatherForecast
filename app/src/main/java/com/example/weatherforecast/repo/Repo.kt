@@ -1,6 +1,7 @@
 package com.example.weatherforecast.repo
 
 import com.example.weatherforecast.db.ConcreteLocalSource
+import com.example.weatherforecast.model.AlertModel
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.model.WeatherResponse
 import com.example.weatherforecast.network.LocationClient
@@ -50,6 +51,18 @@ class Repo private constructor(
 
     override suspend fun deleteFavLocation(favWeather: FavWeather) {
         localSource.deleteFavLocation(favWeather)
+    }
+
+    override suspend fun insertAlert(alert: AlertModel) {
+        localSource.insertAlert(alert)
+    }
+
+    override suspend fun getAllAlerts(): Flow<List<AlertModel>> {
+        return localSource.getAllAlerts()
+    }
+
+    override suspend fun deleteAlert(alert: AlertModel) {
+       localSource.deleteAlert(alert)
     }
 
 }

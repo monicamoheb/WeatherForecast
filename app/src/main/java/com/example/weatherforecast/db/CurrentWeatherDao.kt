@@ -28,15 +28,15 @@ interface CurrentWeatherDao {
     @Delete(entity = FavWeather::class)
     suspend fun deleteFavLocation(favWeather: FavWeather)
 
-//
-//    //alerts
-//
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insertAlert(alert: AlertModel)
-//
-//    @Query("select * from AlertsTable")
-//    fun getAllAlerts(): Flow<List<AlertModel>>
-//
-//    @Delete
-//    suspend fun deleteAlert(alert: AlertModel)
+
+    //alerts
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAlert(alert: AlertModel)
+
+    @Query("select * from AlertsTable")
+    fun getAllAlerts(): Flow<List<AlertModel>>
+
+    @Delete
+    suspend fun deleteAlert(alert: AlertModel)
 }

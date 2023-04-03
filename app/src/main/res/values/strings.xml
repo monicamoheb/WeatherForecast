@@ -50,4 +50,8 @@
     <string name="_115_m">115 m</string>
     <string name="visibility">Visibility</string>
     <string name="hour">Hour</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="alarm">Alarm</string>
+    <string name="save">Save</string>
 </resources>

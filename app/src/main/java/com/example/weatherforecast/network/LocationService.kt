@@ -11,6 +11,6 @@ const val API_KEY="662e20775c1af4fcf9dd9b029978fb3e"
 //add unit
 interface LocationService {
     @GET("data/2.5/onecall")
-    suspend fun getWeather(@Query("lat") lat: String ,@Query("lon") lon: String, @Query("lang") lang: String,@Query("units") unit: String,@Query("appid") appIp: String= API_KEY): WeatherResponse
+    suspend fun getWeather(@Query("lat") lat: String ,@Query("lon") lon: String, @Query("lang") lang: String,@Query("units") unit: String,@Query("appid") appIp: String= API_KEY): Response<WeatherResponse>
     //@Query("q") cityName: String
 }
