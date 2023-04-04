@@ -19,4 +19,6 @@ interface RepoInterface {
     suspend fun insertAlert(alert: AlertModel)
     suspend fun getAllAlerts(): Flow<List<AlertModel>>
     suspend fun deleteAlert(alert: AlertModel)
+
+    suspend fun getCurrentWeatherDBForWorker(): WeatherResponse
 }

@@ -41,6 +41,10 @@ class Repo private constructor(
         return localSource.getCurrentWeather()
     }
 
+    override suspend fun getCurrentWeatherDBForWorker(): WeatherResponse {
+        return localSource.getCurrentWeatherForWorker()
+    }
+
     override suspend fun insertFavLocation(favWeather: FavWeather) {
         localSource.insertFavLocation(favWeather)
     }

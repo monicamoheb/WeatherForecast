@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherforecast.FavApiState
 import com.example.weatherforecast.NetworkChecker
 import com.example.weatherforecast.R
 import com.example.weatherforecast.db.ConcreteLocalSource
@@ -33,9 +34,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 private const val TAG = "FavoriteFragment"
-class FavoriteFragment : Fragment() ,OnFavClickListener {
 
-    lateinit var fab:FloatingActionButton
+class FavoriteFragment : Fragment(), OnFavClickListener {
+
+    lateinit var fab: FloatingActionButton
     lateinit var favLocationsViewModel: FavLocationsViewModel
     lateinit var favLocationsViewModelFactory: FavLocationsViewModelFactory
     lateinit var favLocationAdapter: FavLocationAdapter
@@ -58,7 +60,7 @@ class FavoriteFragment : Fragment() ,OnFavClickListener {
 
     override fun onClick(favWeather: FavWeather) {
         favLocationsViewModel.deleteFavLocation(favWeather)
-        Toast.makeText(requireContext(),"Removed from favorite list ..",Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Removed from favorite list ..", Toast.LENGTH_LONG).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,32 +68,36 @@ class FavoriteFragment : Fragment() ,OnFavClickListener {
 
         initUI(view)
 
-        favLocationsViewModelFactory= FavLocationsViewModelFactory(
+        favLocationsViewModelFactory = FavLocationsViewModelFactory(
             Repo.getInstance(
                 LocationClient.getInstance(),
                 ConcreteLocalSource(requireContext())
             )
         )
 
-        favLocationsViewModel= ViewModelProvider(this, favLocationsViewModelFactory).get(FavLocationsViewModel::class.java)
+        favLocationsViewModel = ViewModelProvider(
+            this,
+            favLocationsViewModelFactory
+        ).get(FavLocationsViewModel::class.java)
         setUpRecyclerView()
         getData()
     }
 
-    fun initUI(view: View){
-        fab=view.findViewById(R.id.fab)
-        favRecyclerView=view.findViewById(R.id.FavRecyclerView)
+    fun initUI(view: View) {
+        fab = view.findViewById(R.id.fab)
+        favRecyclerView = view.findViewById(R.id.FavRecyclerView)
 
         fab.setOnClickListener {
             val networkAvailability = NetworkChecker.isOnline(requireContext())
             if (networkAvailability) {
-                var action: ActionFavoriteFragmentToMapsFragment=
+                var action: ActionFavoriteFragmentToMapsFragment =
                     FavoriteFragmentDirections.actionFavoriteFragmentToMapsFragment()
-                action.sender="fav"
-                Navigation.findNavController(view).navigate(R.id.action_favoriteFragment_to_mapsFragment)
-            }
-            else{
-                val snackbar = Snackbar.make(view,
+                action.sender = "fav"
+                Navigation.findNavController(view)
+                    .navigate(R.id.action_favoriteFragment_to_mapsFragment)
+            } else {
+                val snackbar = Snackbar.make(
+                    view,
                     "Check Your Connection",
                     Snackbar.LENGTH_SHORT
                 )
@@ -100,23 +106,33 @@ class FavoriteFragment : Fragment() ,OnFavClickListener {
         }
     }
 
-    private fun getData(){
+    private fun getData() {
         Log.e(TAG, "getData: ${favLocationsViewModel.stateFlow.value}")
         lifecycleScope.launch(Dispatchers.IO) {
-            favLocationsViewModel.stateFlow.collectLatest { favList ->
-                favLocationAdapter.vList = favList
-                withContext(Dispatchers.Main){
-                favLocationAdapter.notifyDataSetChanged()
+            favLocationsViewModel.stateFlow.collectLatest { result ->
+                when (result) {
+                    is FavApiState.Loading -> {
+                    }
+                    is FavApiState.Success -> {
+                        favLocationAdapter.vList = result.favData
+                        withContext(Dispatchers.Main) {
+                            favLocationAdapter.notifyDataSetChanged()
+                        }
+                    }
+                    else -> {
+                        Toast.makeText(requireContext(),"Failed to fetch ..",Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
     }
-    private fun setUpRecyclerView(){
-        layoutManager= LinearLayoutManager(requireContext())
-        layoutManager.orientation= RecyclerView.VERTICAL
-        favLocationAdapter= FavLocationAdapter(ArrayList(),this,requireContext())
-        favRecyclerView.adapter=favLocationAdapter
-        favRecyclerView.layoutManager=layoutManager
+
+    private fun setUpRecyclerView() {
+        layoutManager = LinearLayoutManager(requireContext())
+        layoutManager.orientation = RecyclerView.VERTICAL
+        favLocationAdapter = FavLocationAdapter(ArrayList(), this, requireContext())
+        favRecyclerView.adapter = favLocationAdapter
+        favRecyclerView.layoutManager = layoutManager
     }
 
 }

@@ -66,13 +66,16 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
             Log.e(TAG, "onViewCreated: sender: $sender", )
             if (sender != null) {
                 if(sender=="fav"){
+                    Log.e(TAG, "onViewCreated: addresssss:  $address", )
                     var favWeather = FavWeather(
                         address.latitude,
                         address.longitude,
-                        address.locality ?: address.featureName
+                        address.getAddressLine(0)
                     )
                     mapsViewModel.insertFavLocation(favWeather)
                     Toast.makeText(requireContext(), "Click Okkk ..", Toast.LENGTH_LONG).show()
+                    Navigation.findNavController(view).navigate(R.id.favoriteFragment)
+
                 } else if (sender=="home") {
 
                     var action: ActionMapsFragmentToHomeFragment =
@@ -82,6 +85,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
                     action.latlang = null
                 }
             }
+
         }
     }
 

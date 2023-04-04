@@ -1,6 +1,5 @@
 package com.example.weatherforecast.db
 
-import android.location.Address
 import androidx.room.*
 import com.example.weatherforecast.model.AlertModel
 import com.example.weatherforecast.model.FavWeather
@@ -15,6 +14,9 @@ interface CurrentWeatherDao {
     @Query("select * from WeatherTable")
     fun getCurrentWeather(): Flow<WeatherResponse>
 
+    @Query("select * from WeatherTable")
+    fun getCurrentWeatherForWorker(): WeatherResponse
+
     @Query("DELETE FROM WeatherTable")
     suspend fun deleteCurrentWeather()
 
@@ -27,7 +29,6 @@ interface CurrentWeatherDao {
 
     @Delete(entity = FavWeather::class)
     suspend fun deleteFavLocation(favWeather: FavWeather)
-
 
     //alerts
 

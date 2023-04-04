@@ -217,12 +217,11 @@ class HomeFragment : Fragment() {
                     else -> {
                         //image failure
                         binding.homeProgressbar.visibility = View.GONE
-                        val snackbar = Snackbar.make(
+                        Snackbar.make(
                             binding.root,
                             "Check Your Connection",
                             Snackbar.LENGTH_SHORT
-                        )
-                        snackbar.show()
+                        ).show()
                     }
                 }
             }

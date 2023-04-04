@@ -19,6 +19,10 @@ class ConcreteLocalSource(context: Context) :LocalSource{
         return currentWeatherDao.getCurrentWeather()
     }
 
+    override suspend fun getCurrentWeatherForWorker() :WeatherResponse{
+        return currentWeatherDao.getCurrentWeatherForWorker()
+    }
+
     override suspend fun deleteCurrentWeather() {
        currentWeatherDao.deleteCurrentWeather()
     }
