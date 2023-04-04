@@ -1,16 +1,12 @@
 package com.example.weatherforecast.db
 
 import kotlinx.coroutines.flow.Flow
-import android.content.Context
 import com.example.weatherforecast.model.AlertModel
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.model.WeatherResponse
 
-class ConcreteLocalSource(context: Context) :LocalSource{
-    private val currentWeatherDao : CurrentWeatherDao by lazy {
-        val db : AppDataBase = AppDataBase.getInstance(context) as AppDataBase
-        db.currentWeatherDao()
-    }
+class ConcreteLocalSource(var currentWeatherDao:CurrentWeatherDao) :LocalSource{
+
     override suspend fun insertCurrentWeather(weatherResponse: WeatherResponse) {
         currentWeatherDao.insertCurrentWeather(weatherResponse)
     }

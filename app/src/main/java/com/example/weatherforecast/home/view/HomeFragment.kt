@@ -26,7 +26,9 @@ import com.example.weatherforecast.MySharedPref
 import com.example.weatherforecast.NetworkChecker
 import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FragmentHomeBinding
+import com.example.weatherforecast.db.AppDataBase
 import com.example.weatherforecast.db.ConcreteLocalSource
+import com.example.weatherforecast.db.CurrentWeatherDao
 import com.example.weatherforecast.home.view.HomeFragmentDirections.ActionHomeFragmentToMapsFragment
 import com.example.weatherforecast.home.viewmodel.HomeViewModel
 import com.example.weatherforecast.home.viewmodel.HomeViewModelFactory
@@ -58,10 +60,15 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val currentWeatherDao : CurrentWeatherDao by lazy {
+            val db : AppDataBase = AppDataBase.getInstance(requireContext()) as AppDataBase
+            db.currentWeatherDao()
+        }
+
         homeViewModelFactory = HomeViewModelFactory(
             Repo.getInstance(
                 LocationClient.getInstance(),
-                ConcreteLocalSource(requireContext())
+                ConcreteLocalSource(currentWeatherDao)
             )
         )
         viewModel = ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)

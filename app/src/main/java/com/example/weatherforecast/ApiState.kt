@@ -4,7 +4,6 @@ import com.example.weatherforecast.model.AlertModel
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.model.WeatherResponse
 
-
 sealed class ApiState {
     class Success(val data:WeatherResponse):ApiState()
     class Failure(val msg:Throwable):ApiState()

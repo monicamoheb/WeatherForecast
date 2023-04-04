@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.FavApiState
 import com.example.weatherforecast.NetworkChecker
 import com.example.weatherforecast.R
+import com.example.weatherforecast.db.AppDataBase
 import com.example.weatherforecast.db.ConcreteLocalSource
+import com.example.weatherforecast.db.CurrentWeatherDao
 import com.example.weatherforecast.favlocations.view.FavoriteFragmentDirections.ActionFavoriteFragmentToMapsFragment
 import com.example.weatherforecast.favlocations.viewmodel.FavLocationsViewModel
 import com.example.weatherforecast.favlocations.viewmodel.FavLocationsViewModelFactory
@@ -68,10 +70,15 @@ class FavoriteFragment : Fragment(), OnFavClickListener {
 
         initUI(view)
 
+        val currentWeatherDao : CurrentWeatherDao by lazy {
+            val db : AppDataBase = AppDataBase.getInstance(requireContext()) as AppDataBase
+            db.currentWeatherDao()
+        }
+
         favLocationsViewModelFactory = FavLocationsViewModelFactory(
             Repo.getInstance(
                 LocationClient.getInstance(),
-                ConcreteLocalSource(requireContext())
+                ConcreteLocalSource(currentWeatherDao)
             )
         )
 

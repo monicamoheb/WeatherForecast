@@ -48,6 +48,8 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.weatherforecast.*
+import com.example.weatherforecast.db.AppDataBase
+import com.example.weatherforecast.db.CurrentWeatherDao
 import com.example.weatherforecast.home.viewmodel.HomeViewModel
 import com.example.weatherforecast.home.viewmodel.HomeViewModelFactory
 import com.example.weatherforecast.model.SettingsModel
@@ -96,10 +98,14 @@ class AlertsFragment : Fragment(), OnAlertsClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         workManager = WorkManager.getInstance(requireActivity().applicationContext)
+        val currentWeatherDao : CurrentWeatherDao by lazy {
+            val db : AppDataBase = AppDataBase.getInstance(requireContext()) as AppDataBase
+            db.currentWeatherDao()
+        }
         alertsViewModelFactory = AlertsViewModelFactory(
             Repo.getInstance(
                 LocationClient.getInstance(),
-                ConcreteLocalSource(requireContext())
+                ConcreteLocalSource(currentWeatherDao)
             )
         )
 

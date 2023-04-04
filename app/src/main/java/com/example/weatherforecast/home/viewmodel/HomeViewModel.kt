@@ -17,7 +17,7 @@ class HomeViewModel(private val _repo: RepoInterface) : ViewModel() {
     val stateFlow: StateFlow<ApiState> = _stateFlow
 
     fun getCurrentWeatherOnline(lat: String, lon: String,lang:String,unit:String) =
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _repo.getCurrentWeatherOnline(lat, lon,lang,unit)
                 .collect { data ->
                     _repo.deleteCurrentWeather()
@@ -27,7 +27,7 @@ class HomeViewModel(private val _repo: RepoInterface) : ViewModel() {
         }
 
      fun getCurrentWeatherDB() =
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _repo.getCurrentWeatherDB().catch { _stateFlow.value = ApiState.Failure(it) }
                 .collect { data ->
                     if (data != null) {

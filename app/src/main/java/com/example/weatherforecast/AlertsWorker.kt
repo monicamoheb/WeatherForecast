@@ -20,7 +20,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import com.example.weatherforecast.db.AppDataBase
 import com.example.weatherforecast.db.ConcreteLocalSource
+import com.example.weatherforecast.db.CurrentWeatherDao
 import com.example.weatherforecast.home.viewmodel.HomeViewModel
 import com.example.weatherforecast.home.viewmodel.HomeViewModelFactory
 import com.example.weatherforecast.model.SettingsModel
@@ -39,9 +41,14 @@ class AlertsWorker(private var context: Context, private var workParams: WorkerP
     lateinit var repo: Repo
 
     override suspend fun doWork(): Result {
+
+       val currentWeatherDao : CurrentWeatherDao by lazy {
+            val db : AppDataBase = AppDataBase.getInstance(context) as AppDataBase
+            db.currentWeatherDao()
+        }
         repo=Repo.getInstance(
             LocationClient.getInstance(),
-            ConcreteLocalSource(context)
+            ConcreteLocalSource(currentWeatherDao)
         )
 
         try {

@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.weatherforecast.R
+import com.example.weatherforecast.db.AppDataBase
 import com.example.weatherforecast.db.ConcreteLocalSource
+import com.example.weatherforecast.db.CurrentWeatherDao
 import com.example.weatherforecast.favlocations.view.MapsFragmentDirections.ActionMapsFragmentToHomeFragment
 import com.example.weatherforecast.favlocations.viewmodel.MapsViewModel
 import com.example.weatherforecast.favlocations.viewmodel.MapsViewModelFactory
@@ -52,10 +54,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
         mapFragment?.getMapAsync(this)
         geocoder = Geocoder(requireContext())
         okButton = view.findViewById(R.id.ok_btn)
+        val currentWeatherDao : CurrentWeatherDao by lazy {
+            val db : AppDataBase = AppDataBase.getInstance(requireContext()) as AppDataBase
+            db.currentWeatherDao()
+        }
         mapsViewModelFactory = MapsViewModelFactory(
             Repo.getInstance(
                 LocationClient.getInstance(),
-                ConcreteLocalSource(requireContext())
+                ConcreteLocalSource(currentWeatherDao)
             )
         )
 

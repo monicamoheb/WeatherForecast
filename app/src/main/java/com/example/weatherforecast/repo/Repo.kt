@@ -5,13 +5,17 @@ import com.example.weatherforecast.model.AlertModel
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.model.WeatherResponse
 import com.example.weatherforecast.network.LocationClient
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class Repo private constructor(
     var remoteSource: LocationClient,
-    var localSource: ConcreteLocalSource
+    var localSource: ConcreteLocalSource,
+    val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RepoInterface {
 
     companion object {
@@ -30,11 +34,15 @@ class Repo private constructor(
     }
 
     override suspend fun insertCurrentWeather(weatherResponse: WeatherResponse) {
-        localSource.insertCurrentWeather(weatherResponse)
+        withContext(ioDispatcher) {
+            localSource.insertCurrentWeather(weatherResponse)
+        }
     }
 
     override suspend fun deleteCurrentWeather() {
-        localSource.deleteCurrentWeather()
+        withContext(ioDispatcher) {
+            localSource.deleteCurrentWeather()
+        }
     }
 
     override suspend fun getCurrentWeatherDB(): Flow<WeatherResponse> {
@@ -46,7 +54,9 @@ class Repo private constructor(
     }
 
     override suspend fun insertFavLocation(favWeather: FavWeather) {
-        localSource.insertFavLocation(favWeather)
+        withContext(ioDispatcher) {
+            localSource.insertFavLocation(favWeather)
+        }
     }
 
     override suspend fun getFavLocations(): Flow<List<FavWeather>> {
@@ -54,11 +64,15 @@ class Repo private constructor(
     }
 
     override suspend fun deleteFavLocation(favWeather: FavWeather) {
-        localSource.deleteFavLocation(favWeather)
+        withContext(ioDispatcher) {
+            localSource.deleteFavLocation(favWeather)
+        }
     }
 
     override suspend fun insertAlert(alert: AlertModel) {
-        localSource.insertAlert(alert)
+        withContext(ioDispatcher) {
+            localSource.insertAlert(alert)
+        }
     }
 
     override suspend fun getAllAlerts(): Flow<List<AlertModel>> {
@@ -66,7 +80,8 @@ class Repo private constructor(
     }
 
     override suspend fun deleteAlert(alert: AlertModel) {
-       localSource.deleteAlert(alert)
+        withContext(ioDispatcher) {
+            localSource.deleteAlert(alert)
+        }
     }
-
 }

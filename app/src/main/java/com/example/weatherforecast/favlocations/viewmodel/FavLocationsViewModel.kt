@@ -21,7 +21,7 @@ class FavLocationsViewModel(private val _repo: RepoInterface) : ViewModel() {
         getFavLocationsDB()
     }
 
-    private fun getFavLocationsDB() = viewModelScope.launch(Dispatchers.IO) {
+    private fun getFavLocationsDB() = viewModelScope.launch {
             _repo.getFavLocations().catch { e->_stateFlow.value=FavApiState.Failure(e) }
                 .collect { data ->
                     if (data != null) {
@@ -34,7 +34,7 @@ class FavLocationsViewModel(private val _repo: RepoInterface) : ViewModel() {
         }
 
     fun deleteFavLocation(favWeather: FavWeather) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _repo.deleteFavLocation(favWeather)
             getFavLocationsDB()
         }

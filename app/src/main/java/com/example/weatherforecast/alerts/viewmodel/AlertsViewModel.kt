@@ -23,7 +23,7 @@ class AlertsViewModel (private val _repo: RepoInterface) : ViewModel(){
         getAllAlertsDB()
     }
 
-    private fun getAllAlertsDB() = viewModelScope.launch(Dispatchers.IO) {
+    private fun getAllAlertsDB() = viewModelScope.launch {
         _repo.getAllAlerts().catch { e-> _stateFlow.value=AlertApiState.Failure(e) }
             .collect { data ->
                 if (data != null) {
@@ -37,7 +37,7 @@ class AlertsViewModel (private val _repo: RepoInterface) : ViewModel(){
     }
 
     fun deleteAlert(alert: AlertModel) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _repo.deleteAlert(alert)
             getAllAlertsDB()
         }
