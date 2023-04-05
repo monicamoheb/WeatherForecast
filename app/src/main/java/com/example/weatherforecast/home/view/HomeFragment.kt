@@ -195,10 +195,10 @@ class HomeFragment : Fragment() {
                         } else {
                             if (settings.windSpeed == "meter/sec") {
                                 binding.tvWind.text =
-                                    (result.data.current.wind_speed).div(2.237).toString() + " m/h"
+                                    (result.data.current.wind_speed).div(2.237).toString() + " m/s"
                             } else {
                                 binding.tvWind.text =
-                                    result.data.current.wind_speed.toString() + " m/s"
+                                    result.data.current.wind_speed.toString() + " m/h"
                             }
                             (binding.tvWeatherDegreeHome.text) =
                                 result.data.current.temp.toString() + "F"
