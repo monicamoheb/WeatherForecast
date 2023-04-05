@@ -178,7 +178,6 @@ class HomeFragment : Fragment() {
                             } else {
                                 binding.tvWind.text = (result.data.current.wind_speed).times(2.237)
                                     .toString() + " m/h"
-
                             }
                             (binding.tvWeatherDegreeHome.text) =
                                 result.data.current.temp.toString() + "°C"
