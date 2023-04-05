@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.example.weatherforecast.db.AppDataBase
@@ -31,6 +32,7 @@ import com.example.weatherforecast.network.RetrofitHelper
 import com.example.weatherforecast.repo.Repo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.*
 
 const val CHANNEL_ID="123"
 class AlertsWorker(private var context: Context, private var workParams: WorkerParameters) :
@@ -53,6 +55,14 @@ class AlertsWorker(private var context: Context, private var workParams: WorkerP
 
         try {
             val type=inputData.getString("alertType")
+            val endDate = inputData.getLong("endDate", 1L)
+
+            val isFinished =  endDate < Calendar.getInstance().timeInMillis
+            if (isFinished){
+                WorkManager.getInstance(context).cancelWorkById(id)
+                return Result.success()
+            }
+
             val weather=repo.getCurrentWeatherDBForWorker()
             val apiInstance = RetrofitHelper.getLocation()
             val resultAlert = apiInstance.getWeather(weather.lat.toString(), weather.lon.toString(), "en", "standard")

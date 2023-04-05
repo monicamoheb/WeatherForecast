@@ -43,11 +43,9 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.core.content.ContextCompat
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
-import androidx.work.workDataOf
+import androidx.work.*
 import com.example.weatherforecast.*
+import com.example.weatherforecast.R
 import com.example.weatherforecast.db.AppDataBase
 import com.example.weatherforecast.db.CurrentWeatherDao
 import com.example.weatherforecast.home.viewmodel.HomeViewModel
@@ -237,8 +235,14 @@ class AlertsFragment : Fragment(), OnAlertsClickListener {
             .addTag(Constants.AlertWorker_TAG)
             .setInputData(
                 workDataOf(
-                    "alertType" to alertType
+                    "alertType" to alertType,
+                    "endDate" to fullEndDate.time
                 )
+            ).
+            setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
             )
             .setInitialDelay(
                 fullStartDate.time - Calendar.getInstance().timeInMillis,
