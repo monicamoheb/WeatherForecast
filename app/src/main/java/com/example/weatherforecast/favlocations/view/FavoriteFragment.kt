@@ -21,11 +21,7 @@ import com.example.weatherforecast.db.CurrentWeatherDao
 import com.example.weatherforecast.favlocations.view.FavoriteFragmentDirections.ActionFavoriteFragmentToMapsFragment
 import com.example.weatherforecast.favlocations.viewmodel.FavLocationsViewModel
 import com.example.weatherforecast.favlocations.viewmodel.FavLocationsViewModelFactory
-import com.example.weatherforecast.favlocations.viewmodel.MapsViewModel
-import com.example.weatherforecast.favlocations.viewmodel.MapsViewModelFactory
-import com.example.weatherforecast.home.view.HomeFragmentDirections
 import com.example.weatherforecast.model.FavWeather
-import com.example.weatherforecast.model.WeatherResponse
 import com.example.weatherforecast.network.LocationClient
 import com.example.weatherforecast.repo.Repo
 import com.google.android.material.floatingactionbutton.FloatingActionButton

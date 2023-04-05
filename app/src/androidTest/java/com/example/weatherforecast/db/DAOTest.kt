@@ -55,23 +55,23 @@ class DAOTest {
 
 
     @Test
-    fun insertCurrentWeather()= runBlockingTest {
+    fun insertCurrentWeather_returnValueNotNull()= runBlockingTest {
         launch {
             database.currentWeatherDao().getCurrentWeather().collect{
                 assertNull(it)
                 cancel()
             }
         }
+        //when
         database.currentWeatherDao().insertCurrentWeather(weather)
 
-        //When
+        //then
         launch {
             database.currentWeatherDao().getCurrentWeather().collect{
                 assertThat(it, `is`(notNullValue()))
                 cancel()
             }
         }
-
     }
 
     @Test
@@ -87,7 +87,7 @@ class DAOTest {
     }
     @Test
     fun deleteCurrentWeather_returnNull() = runBlockingTest {
-
+        //given
         database.currentWeatherDao().insertCurrentWeather(weather)
         launch {
             database.currentWeatherDao().getCurrentWeather().collect {
@@ -95,19 +95,20 @@ class DAOTest {
                 cancel()
             }
         }
+        //when
         database.currentWeatherDao().deleteCurrentWeather()
+        //then
         launch {
             database.currentWeatherDao().getCurrentWeather().collect {
                 assertNull(it)
                 cancel()
             }
         }
-
     }
 
 
     @Test
-    fun deleteFavLocation_afterInsertOneItem_returnSizeZero()= runBlockingTest {
+    fun deleteOneFavLocation_afterInsertOneItem_returnSizeZero()= runBlockingTest {
         database.currentWeatherDao().insertFavLocation(favWeather)
         var fav:FavWeather?=null
 
@@ -117,8 +118,10 @@ class DAOTest {
                 cancel()
             }
         }
+        //when delete fav location
         database.currentWeatherDao().deleteFavLocation(fav!!)
 
+        //then size = 0 is returned
         launch {
             database.currentWeatherDao().getFavLocations().collect {
                 assertThat(it.size,`is`(0) )
@@ -128,7 +131,7 @@ class DAOTest {
     }
 
     @Test
-    fun insertFavLocation_sizeIncreasedByOne() = runBlockingTest {
+    fun insertOneFavLocation_sizeIncreasedByOne() = runBlockingTest {
         var size=0
         launch {
             database.currentWeatherDao().getFavLocations().collect{
@@ -136,10 +139,10 @@ class DAOTest {
                 cancel()
             }
         }
-
+        //when insert new fav weather
         database.currentWeatherDao().insertFavLocation(favWeather)
 
-        //When
+        //then size increased by one
         launch {
             database.currentWeatherDao().getFavLocations().collect{
                 assertThat(it.size, `is`(size+1))
@@ -149,14 +152,16 @@ class DAOTest {
     }
 
     @Test
-    fun getFavLocations_returnSizeIs4()= runBlockingTest{
+    fun getFavLocations_afterFourInsertion_returnSizeIs4()= runBlockingTest{
         database.currentWeatherDao().insertFavLocation(favWeather)
         database.currentWeatherDao().insertFavLocation(favWeather)
         database.currentWeatherDao().insertFavLocation(favWeather)
         database.currentWeatherDao().insertFavLocation(favWeather)
 
+        //when get fav location from db
         launch {
             database.currentWeatherDao().getFavLocations().collect{
+                //then return size = 4
                 assertThat(it.size,`is`(4))
                 cancel()
             }
@@ -165,16 +170,17 @@ class DAOTest {
 
 
     @Test
-    fun insertAlert()= runBlockingTest {
+    fun insertOneAlert_returnSizeEqualOne()= runBlockingTest {
         launch {
             database.currentWeatherDao().getAllAlerts().collect {
                 assertThat(it.size,`is`(0))
                 cancel()
             }
         }
-
+        //when insert one alert
         database.currentWeatherDao().insertAlert(alert)
 
+        //then size =1
         launch {
             database.currentWeatherDao().getAllAlerts().collect {
                 assertThat(it.size,`is`(1))
@@ -182,20 +188,24 @@ class DAOTest {
             }
         }
     }
+
     @Test
-    fun getAllAlerts()= runBlockingTest {
+    fun getAllAlerts_afterInsertTwo_returnSize2()= runBlockingTest {
         database.currentWeatherDao().insertAlert(alert)
         database.currentWeatherDao().insertAlert(alert2)
 
         launch {
+            //when get alerts from db
             database.currentWeatherDao().getAllAlerts().collect {
+                //then size =2
                 assertThat(it.size,`is`(2))
                 cancel()
             }
         }
     }
     @Test
-    fun deleteAlert()= runBlockingTest{
+    fun deleteOneAlert_afterOneInsertion_returnSizeEqual0()= runBlockingTest{
+        //given insert one alert
         database.currentWeatherDao().insertAlert(alert)
 
         launch {
@@ -204,8 +214,10 @@ class DAOTest {
                 cancel()
             }
         }
+        //when delete one alert
         database.currentWeatherDao().deleteAlert(alert)
 
+        //then size =0
         launch {
             database.currentWeatherDao().getAllAlerts().collect {
                 assertThat(it.size,`is`(0))

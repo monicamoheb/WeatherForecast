@@ -1,10 +1,12 @@
 package com.example.weatherforecast.repo
 
 import com.example.weatherforecast.db.ConcreteLocalSource
+import com.example.weatherforecast.db.LocalSource
 import com.example.weatherforecast.model.AlertModel
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.model.WeatherResponse
 import com.example.weatherforecast.network.LocationClient
+import com.example.weatherforecast.network.RemoteSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,16 +15,16 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class Repo private constructor(
-    var remoteSource: LocationClient,
-    var localSource: ConcreteLocalSource,
+    var remoteSource: RemoteSource,
+    var localSource: LocalSource,
     val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RepoInterface {
 
     companion object {
         private var instance: Repo? = null
-        fun getInstance(remoteSource: LocationClient, localSource: ConcreteLocalSource): Repo {
+        fun getInstance(remoteSource: RemoteSource, localSource: LocalSource,ioDispatcher: CoroutineDispatcher = Dispatchers.IO): Repo {
             return instance ?: synchronized(this) {
-                val temp = Repo(remoteSource, localSource)
+                val temp = Repo(remoteSource, localSource,ioDispatcher)
                 instance = temp
                 temp
             }

@@ -33,7 +33,7 @@ class HomeViewModel(private val _repo: RepoInterface) : ViewModel() {
                     if (data != null) {
                         _stateFlow.value = ApiState.Success(data)
                     } else {
-                        //_stateFlow.value = ApiState.Failure(Throwable("empty data in database"))
+                       // _stateFlow.value = ApiState.Failure(Throwable("empty data in database"))
                     }
                 }
         }

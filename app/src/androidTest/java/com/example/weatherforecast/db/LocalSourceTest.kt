@@ -65,16 +65,17 @@ class LocalSourceTest {
     fun closeDataBase()= database.close()
 
     @Test
-    fun insertCurrentWeather()= runBlockingTest {
+    fun insertCurrentWeather_returnValueNotNull()= runBlockingTest {
         launch {
             localDataSource.getCurrentWeather().collect{
                 TestCase.assertNull(it)
                 cancel()
             }
         }
-       localDataSource.insertCurrentWeather(weather)
+        //when
+        localDataSource.insertCurrentWeather(weather)
 
-        //When
+        //then
         launch {
             localDataSource.getCurrentWeather().collect{
                 assertThat(it, `is`(notNullValue()))
@@ -96,7 +97,7 @@ class LocalSourceTest {
     }
     @Test
     fun deleteCurrentWeather_returnNull() = runBlockingTest {
-
+        //given
         localDataSource.insertCurrentWeather(weather)
         launch {
             localDataSource.getCurrentWeather().collect {
@@ -104,54 +105,20 @@ class LocalSourceTest {
                 cancel()
             }
         }
+        //when
         localDataSource.deleteCurrentWeather()
+        //then
         launch {
             localDataSource.getCurrentWeather().collect {
                 TestCase.assertNull(it)
                 cancel()
             }
         }
-
     }
 
-    @Test
-    fun insertFavLocation_sizeIncreasedByOne() = runBlockingTest {
-        var size=0
-        launch {
-            localDataSource.getFavLocations().collect{
-                size=it.size
-                cancel()
-            }
-        }
-
-        localDataSource.insertFavLocation(favWeather)
-
-        //When
-        launch {
-            localDataSource.getFavLocations().collect{
-                assertThat(it.size, `is`(size + 1))
-                cancel()
-            }
-        }
-    }
 
     @Test
-    fun getFavLocations_returnSizeIs4()= runBlockingTest{
-        localDataSource.insertFavLocation(favWeather)
-        localDataSource.insertFavLocation(favWeather)
-        localDataSource.insertFavLocation(favWeather)
-        localDataSource.insertFavLocation(favWeather)
-
-        launch {
-            database.currentWeatherDao().getFavLocations().collect{
-                assertThat(it.size, `is`(4))
-                cancel()
-            }
-        }
-    }
-
-    @Test
-    fun deleteFavLocation()= runBlockingTest {
+    fun deleteOneFavLocation_afterInsertOneItem_returnSizeZero()= runBlockingTest {
         localDataSource.insertFavLocation(favWeather)
         var fav:FavWeather?=null
 
@@ -161,8 +128,10 @@ class LocalSourceTest {
                 cancel()
             }
         }
+        //when delete fav location
         localDataSource.deleteFavLocation(fav!!)
 
+        //then size = 0 is returned
         launch {
             localDataSource.getFavLocations().collect {
                 assertThat(it.size,`is`(0) )
@@ -172,50 +141,96 @@ class LocalSourceTest {
     }
 
     @Test
-    fun insertAlert()= runBlockingTest {
+    fun insertOneFavLocation_sizeIncreasedByOne() = runBlockingTest {
+        var size=0
         launch {
-            localDataSource.getAllAlerts().collect {
-                assertThat(it.size, `is`(0))
+            localDataSource.getFavLocations().collect{
+                size=it.size
                 cancel()
             }
         }
+        //when insert new fav weather
+        localDataSource.insertFavLocation(favWeather)
 
-        localDataSource.insertAlert(alert)
-
+        //then size increased by one
         launch {
-            localDataSource.getAllAlerts().collect {
-                assertThat(it.size, `is`(1))
+            localDataSource.getFavLocations().collect{
+                assertThat(it.size, `is`(size+1))
                 cancel()
             }
         }
     }
+
     @Test
-    fun getAllAlerts()= runBlockingTest {
+    fun getFavLocations_afterFourInsertion_returnSizeIs4()= runBlockingTest{
+        localDataSource.insertFavLocation(favWeather)
+        localDataSource.insertFavLocation(favWeather)
+        localDataSource.insertFavLocation(favWeather)
+        localDataSource.insertFavLocation(favWeather)
+
+        //when get fav location from db
+        launch {
+            localDataSource.getFavLocations().collect{
+                //then return size = 4
+                assertThat(it.size,`is`(4))
+                cancel()
+            }
+        }
+    }
+
+
+    @Test
+    fun insertOneAlert_returnSizeEqualOne()= runBlockingTest {
+        launch {
+            localDataSource.getAllAlerts().collect {
+                assertThat(it.size,`is`(0))
+                cancel()
+            }
+        }
+        //when insert one alert
+        localDataSource.insertAlert(alert)
+
+        //then size =1
+        launch {
+            localDataSource.getAllAlerts().collect {
+                assertThat(it.size,`is`(1))
+                cancel()
+            }
+        }
+    }
+
+    @Test
+    fun getAllAlerts_afterInsertTwo_returnSize2()= runBlockingTest {
         localDataSource.insertAlert(alert)
         localDataSource.insertAlert(alert2)
 
         launch {
+            //when get alerts from db
             localDataSource.getAllAlerts().collect {
-                assertThat(it.size, `is`(2))
+                //then size =2
+                assertThat(it.size,`is`(2))
                 cancel()
             }
         }
     }
     @Test
-    fun deleteAlert()= runBlockingTest{
+    fun deleteOneAlert_afterOneInsertion_returnSizeEqual0()= runBlockingTest{
+        //given insert one alert
         localDataSource.insertAlert(alert)
 
         launch {
             localDataSource.getAllAlerts().collect {
-                assertThat(it.size, `is`(1))
+                assertThat(it.size,`is`(1))
                 cancel()
             }
         }
+        //when delete one alert
         localDataSource.deleteAlert(alert)
 
+        //then size =0
         launch {
             localDataSource.getAllAlerts().collect {
-                assertThat(it.size, `is`(0))
+                assertThat(it.size,`is`(0))
                 cancel()
             }
         }

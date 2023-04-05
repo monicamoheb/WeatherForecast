@@ -28,10 +28,10 @@ class AlertsViewModel (private val _repo: RepoInterface) : ViewModel(){
             .collect { data ->
                 if (data != null) {
                     _stateFlow.value = AlertApiState.Success(data)
-                    Log.e(TAG, "getFavLocationsDB: $data" )
+//                    Log.e(TAG, "getFavLocationsDB: $data" )
                 }
                 else{
-                    Log.e(TAG, "getFavLocationsDB: data is  null", )
+//                    Log.e(TAG, "getFavLocationsDB: data is  null", )
                 }
             }
     }

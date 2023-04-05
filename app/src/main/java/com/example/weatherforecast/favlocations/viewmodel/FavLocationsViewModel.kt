@@ -3,11 +3,9 @@ package com.example.weatherforecast.favlocations.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherforecast.ApiState
 import com.example.weatherforecast.FavApiState
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.repo.RepoInterface
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -21,7 +19,7 @@ class FavLocationsViewModel(private val _repo: RepoInterface) : ViewModel() {
         getFavLocationsDB()
     }
 
-    private fun getFavLocationsDB() = viewModelScope.launch {
+     fun getFavLocationsDB() = viewModelScope.launch {
             _repo.getFavLocations().catch { e->_stateFlow.value=FavApiState.Failure(e) }
                 .collect { data ->
                     if (data != null) {
