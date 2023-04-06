@@ -48,10 +48,6 @@ import com.example.weatherforecast.*
 import com.example.weatherforecast.R
 import com.example.weatherforecast.db.AppDataBase
 import com.example.weatherforecast.db.CurrentWeatherDao
-import com.example.weatherforecast.home.viewmodel.HomeViewModel
-import com.example.weatherforecast.home.viewmodel.HomeViewModelFactory
-import com.example.weatherforecast.model.SettingsModel
-import com.google.android.material.snackbar.Snackbar
 import java.util.concurrent.TimeUnit
 
 private const val TAG = "AlertsFragment"
@@ -359,9 +355,9 @@ class AlertsFragment : Fragment(), OnAlertsClickListener {
         lifecycleScope.launch(Dispatchers.IO) {
             alertsViewModel.stateFlow.collectLatest { result ->
                 when (result) {
-                    is AlertApiState.Loading -> {
+                    is AlertState.Loading -> {
                     }
-                    is AlertApiState.Success -> {
+                    is AlertState.Success -> {
                         alertsAdapter.AList = result.alertData
                         withContext(Dispatchers.Main) {
                             alertsAdapter.notifyDataSetChanged()

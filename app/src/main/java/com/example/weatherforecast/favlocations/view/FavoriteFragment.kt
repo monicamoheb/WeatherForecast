@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weatherforecast.FavApiState
+import com.example.weatherforecast.FavState
 import com.example.weatherforecast.NetworkChecker
 import com.example.weatherforecast.R
 import com.example.weatherforecast.db.AppDataBase
@@ -114,9 +114,9 @@ class FavoriteFragment : Fragment(), OnFavClickListener {
         lifecycleScope.launch(Dispatchers.IO) {
             favLocationsViewModel.stateFlow.collectLatest { result ->
                 when (result) {
-                    is FavApiState.Loading -> {
+                    is FavState.Loading -> {
                     }
-                    is FavApiState.Success -> {
+                    is FavState.Success -> {
                         favLocationAdapter.vList = result.favData
                         withContext(Dispatchers.Main) {
                             favLocationAdapter.notifyDataSetChanged()

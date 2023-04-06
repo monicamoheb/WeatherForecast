@@ -1,7 +1,7 @@
 package com.example.weatherforecast.favlocations.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.weatherforecast.FavApiState
+import com.example.weatherforecast.FavState
 import com.example.weatherforecast.MainRule
 import com.example.weatherforecast.model.FavWeather
 import com.example.weatherforecast.repo.FakeRepo
@@ -43,7 +43,7 @@ class FavLocationsViewModelTest {
     fun getFavLocationsDB_affectInStateFlow() {
         viewModel.insertFavLocation(favWeather)
         val value = favViewModel.stateFlow.value
-        value as FavApiState.Success
+        value as FavState.Success
         assertThat(value.favData.size, `is`(1))
         assertThat(value.favData.get(0).timezone,`is`(favWeather.timezone))
     }
@@ -57,7 +57,7 @@ class FavLocationsViewModelTest {
         favViewModel.deleteFavLocation(favWeather)
         //then size = 1
         val value = favViewModel.stateFlow.value
-        value as FavApiState.Success
+        value as FavState.Success
         assertThat(value.favData.size, `is`(1))
         assertThat(value.favData[0].timezone,`is`(favWeather2.timezone))
 
@@ -66,13 +66,13 @@ class FavLocationsViewModelTest {
     @Test
     fun insertOneFavLocation_sizeInStateFlowEqualOne() {
         var value = favViewModel.stateFlow.value
-        value as FavApiState.Success
+        value as FavState.Success
         assertThat(value.favData.size, `is`(0))
         //when insert one
         viewModel.insertFavLocation(favWeather)
         //then the size = 1
         value = favViewModel.stateFlow.value
-        value as FavApiState.Success
+        value as FavState.Success
         assertThat(value.favData.size, `is`(1))
     }
 

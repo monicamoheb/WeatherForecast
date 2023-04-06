@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +39,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
     lateinit var geocoder: Geocoder
     lateinit var address: Address
     lateinit var okButton: MaterialButton
+    lateinit var searchEditText: EditText
+    lateinit var backButton: ImageButton
     lateinit var mapsViewModel: MapsViewModel
     lateinit var mapsViewModelFactory: MapsViewModelFactory
 
@@ -54,6 +58,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
         mapFragment?.getMapAsync(this)
         geocoder = Geocoder(requireContext())
         okButton = view.findViewById(R.id.ok_btn)
+        searchEditText=view.findViewById(R.id.search_editText)
+        backButton=view.findViewById(R.id.back_img_btn)
+
         val currentWeatherDao : CurrentWeatherDao by lazy {
             val db : AppDataBase = AppDataBase.getInstance(requireContext()) as AppDataBase
             db.currentWeatherDao()
@@ -66,9 +73,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
         )
 
         mapsViewModel = ViewModelProvider(this, mapsViewModelFactory).get(MapsViewModel::class.java)
-
+        var sender = arguments?.let { MapsFragmentArgs.fromBundle(it).sender }
+        backButton.setOnClickListener {
+            if (sender != null) {
+                if(sender=="fav") {
+                    Navigation.findNavController(view).navigate(R.id.favoriteFragment)
+                }
+                else if (sender=="home"){
+                    Navigation.findNavController(view).navigate(R.id.homeFragment)
+                }
+            }
+        }
         okButton.setOnClickListener {
-            var sender = arguments?.let { MapsFragmentArgs.fromBundle(it).sender }
             Log.e(TAG, "onViewCreated: sender: $sender", )
             if (sender != null) {
                 if(sender=="fav"){
@@ -92,6 +108,19 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListene
                 }
             }
 
+        }
+        searchEditText.setOnEditorActionListener { v, actionId, event ->
+            val address = geocoder.getFromLocationName(searchEditText.text.toString(), 1)
+            if (address != null) {
+                val searchedLatLng = LatLng(address[0].latitude, address[0].longitude)
+                this.address.latitude=searchedLatLng.latitude
+                this.address.longitude=searchedLatLng.longitude
+                this.address.setAddressLine(0,address[0].getAddressLine(0))
+                mMap.clear()
+                mMap.addMarker(MarkerOptions().position(searchedLatLng).title(address[0].getAddressLine(0)))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchedLatLng, 16F))
+            }
+            return@setOnEditorActionListener false
         }
     }
 

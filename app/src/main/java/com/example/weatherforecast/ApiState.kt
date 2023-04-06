@@ -10,14 +10,14 @@ sealed class ApiState {
     object Loading:ApiState()
 }
 
-sealed class FavApiState {
-    class Success(val favData:List<FavWeather>):FavApiState()
-    class Failure(val msg:Throwable):FavApiState()
-    object Loading:FavApiState()
+sealed class FavState {
+    class Success(val favData:List<FavWeather>):FavState()
+    class Failure(val msg:Throwable):FavState()
+    object Loading:FavState()
 }
 
-sealed class AlertApiState {
-    class Success(val alertData:List<AlertModel>):AlertApiState()
-    class Failure(val msg:Throwable):AlertApiState()
-    object Loading:AlertApiState()
+sealed class AlertState {
+    class Success(val alertData:List<AlertModel>):AlertState()
+    class Failure(val msg:Throwable):AlertState()
+    object Loading:AlertState()
 }

@@ -1,7 +1,7 @@
 package com.example.weatherforecast.alerts.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.weatherforecast.AlertApiState
+import com.example.weatherforecast.AlertState
 import com.example.weatherforecast.MainRule
 import com.example.weatherforecast.model.AlertModel
 import com.example.weatherforecast.repo.FakeRepo
@@ -45,7 +45,7 @@ class AlertsViewModelTest {
         viewModel.insertAlert(alert2)
 
         var result=viewModel.stateFlow.value
-        result as AlertApiState.Success
+        result as AlertState.Success
         assertThat(result.alertData.getOrNull(1),`is`(notNullValue()))
 
         //when delete first alert
@@ -53,7 +53,7 @@ class AlertsViewModelTest {
 
         //then size =1
          result=viewModel.stateFlow.value
-        result as AlertApiState.Success
+        result as AlertState.Success
         assertThat(result.alertData.size,`is`(1))
         assertNull(result.alertData.getOrNull(1))
         assertThat(result.alertData[0].alertType,`is`(alert2.alertType))
@@ -67,20 +67,20 @@ class AlertsViewModelTest {
         viewModel.deleteAlert(alert)
         //then return size =0
         var result=viewModel.stateFlow.value
-        result as AlertApiState.Success
+        result as AlertState.Success
         assertThat(result.alertData.size,`is`(0))
     }
 
     @Test
     fun insertOneAlert_sizeIncreasedByOne() {
         var result=viewModel.stateFlow.value
-        result as AlertApiState.Success
+        result as AlertState.Success
         val size=result.alertData.size
         //whe onsert one alert
         viewModel.insertAlert(alert)
         //then size increased by 1
         result=viewModel.stateFlow.value
-        result as AlertApiState.Success
+        result as AlertState.Success
         assertThat(result.alertData.size,`is`(size+1))
 
     }
